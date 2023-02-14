@@ -1,8 +1,8 @@
 // frontend/src/components/LoginFormModal/index.js
 import React, { useState } from "react";
-import * as sessionActions from "../../store/session";
+import * as sessionActions from "../../../../store/session";
 import { useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
+import { useModal } from "../../../../context/Modal";
 //import "./LoginForm.css";
 
 function LoginFormModal() {
@@ -24,14 +24,19 @@ function LoginFormModal() {
   };
 
   return (
-    <>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <ul>
-          {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
-          ))}
-        </ul>
+    <div className="login-form-header">
+      <div>
+        <h1>Log In</h1>
+      </div>
+      <form className="login-form" onSubmit={handleSubmit}>
+        <div>
+          <ul>
+            {errors.map((error, idx) => (
+              <li key={idx}>{error}</li>
+            ))}
+          </ul>
+        </div>
+
         <label>
           Username or Email
           <input
@@ -41,6 +46,7 @@ function LoginFormModal() {
             required
           />
         </label>
+
         <label>
           Password
           <input
@@ -50,9 +56,12 @@ function LoginFormModal() {
             required
           />
         </label>
-        <button type="submit">Log In</button>
+
+        <button className="login-form-submit-button" type="submit">
+          Log In
+        </button>
       </form>
-    </>
+    </div>
   );
 }
 

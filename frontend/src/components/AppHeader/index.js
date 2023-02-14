@@ -1,10 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import ProfileButton from "../Navigation/ProfileButton";
-import OpenModalButton from "../OpenModalButton";
-import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
+import ProfileButton from "./ProfileButton";
+import SignupLoginMenuButton from "./SignupLoginMenuButton";
 
 function AppHeader({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
@@ -18,14 +16,7 @@ function AppHeader({ isLoaded }) {
   } else {
     sessionLinks = (
       <div>
-        <OpenModalButton
-          buttonText="Log In"
-          modalComponent={<LoginFormModal />}
-        />
-        <OpenModalButton
-          buttonText="Sign Up"
-          modalComponent={<SignupFormModal />}
-        />
+        <SignupLoginMenuButton />
       </div>
     );
   }
