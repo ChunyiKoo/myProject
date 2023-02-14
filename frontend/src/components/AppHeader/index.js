@@ -1,0 +1,49 @@
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import ProfileButton from "../Navigation/ProfileButton";
+import OpenModalButton from "../OpenModalButton";
+import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
+
+function AppHeader({ isLoaded }) {
+  const sessionUser = useSelector((state) => state.session.user);
+  let sessionLinks;
+  if (sessionUser) {
+    sessionLinks = (
+      <div>
+        <ProfileButton user={sessionUser} />
+      </div>
+    );
+  } else {
+    sessionLinks = (
+      <div>
+        <OpenModalButton
+          buttonText="Log In"
+          modalComponent={<LoginFormModal />}
+        />
+        <OpenModalButton
+          buttonText="Sign Up"
+          modalComponent={<SignupFormModal />}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="app-header">
+      <div className="app-header-container">
+        <NavLink style={{ textDecoration: "none" }} exact to="/">
+          <div className="home-icon-container">
+            <i class="fa-regular fa-face-laugh-wink fa-2x"></i>
+            <div className="home-icon-text">happybnb</div>
+          </div>
+        </NavLink>
+
+        {isLoaded && sessionLinks}
+      </div>
+    </div>
+  );
+}
+
+export default AppHeader;
