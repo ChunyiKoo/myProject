@@ -15,7 +15,7 @@ h2 {
   font-weight: bold;
 }
 
-/* modal */
+/***** modal *****/
 #modal {
   position: fixed;
   top: 0;
@@ -41,12 +41,17 @@ h2 {
   background-color: white;
 }
 
-/* AppHeader */
+/***** AppHeader *****/
 .home-logo {
   height: 50px;
   width: 50px
 }
 
+.spotform-usermenu-container {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
 
 /*profile button*/
 .dropdown {
@@ -131,7 +136,7 @@ input {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px;
+  margin: 10px;
   max-width: 500px;
   border-radius: 15px;
 }
@@ -143,6 +148,11 @@ input {
   height: 45px;
   background-color: rgb(233, 67, 100);
   color: white;
+}
+
+.login-demo-user {
+  text-decoration: underline;
+  margin-bottom: 20px;
 }
 
 
@@ -177,4 +187,73 @@ input {
   /* background-color: rgb(174, 247, 222); */
   height: 70px;
   margin: 0 20px;
+}
+
+
+/***** Landing Page *****/
+/*****Spots*****/
+
+.Spots-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 270px;
+  gap: 10px;
+  font-size: 10px;
+}
+
+.Landing-page-container {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Landing-page {
+  width: 80%;
+  margin-top: 60px;
+  display: grid;
+  column-gap: 20px;
+  row-gap: 30px;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.Spots-photo {
+  border-radius: 9px;
+  width: 270px;
+  height: 250px;
+}
+
+.Spots-info-text-container {
+  display: flex;
+  justify-content: space-between;
+  width: 270px;
+}
+
+.small-text {
+  font-size: 18px;
+}
+
+.Spots-price {
+  display: flex;
+  justify-content: flex-start;
+  width: 270px;
+}
+
+/***** new-spot-form *****/
+.new-spot-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.new-spot-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  max-width: 500px;
+  border-radius: 15px;
 }

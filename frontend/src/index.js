@@ -7,7 +7,6 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { ModalProvider, Modal } from "./context/Modal";
-import { ModalDropdownProvider, ModalDropdown } from "./context/ModalDropdown";
 import App from "./App";
 
 import configureStore from "./store";
@@ -30,15 +29,12 @@ if (process.env.NODE_ENV !== "production") {
 function Root() {
   return (
     <ModalProvider>
-      <ModalDropdownProvider>
-        <Provider store={store}>
-          <BrowserRouter>
-            <App />
-            <ModalDropdown />
-            <Modal />
-          </BrowserRouter>
-        </Provider>
-      </ModalDropdownProvider>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+          <Modal />
+        </BrowserRouter>
+      </Provider>
     </ModalProvider>
   );
 }

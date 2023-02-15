@@ -9,7 +9,16 @@ function AppHeader({ isLoaded }) {
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
-      <div>
+      <div className="spotform-usermenu-container">
+        <NavLink
+          activeStyle={{
+            color: "blue",
+            textDecoration: "none",
+          }}
+          to="/spots/new"
+        >
+          Create a New Spot!
+        </NavLink>
         <ProfileButton user={sessionUser} />
       </div>
     );
@@ -24,9 +33,10 @@ function AppHeader({ isLoaded }) {
   return (
     <div className="app-header">
       <div className="app-header-container">
+        {/* home button */}
         <NavLink style={{ textDecoration: "none" }} exact to="/">
           <div className="home-icon-container">
-            <i class="fa-regular fa-face-laugh-wink fa-2x"></i>
+            <i className="fa-regular fa-face-laugh-wink fa-2x"></i>
             <div className="home-icon-text">happybnb</div>
           </div>
         </NavLink>

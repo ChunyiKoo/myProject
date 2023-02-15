@@ -23,6 +23,11 @@ function LoginFormModal() {
       });
   };
 
+  const fillDemo = () => {
+    setCredential("demo@user.io");
+    setPassword("password");
+  };
+
   return (
     <div className="login-form-header">
       <div>
@@ -61,6 +66,9 @@ function LoginFormModal() {
           Log In
         </button>
       </form>
+      <div className="login-demo-user" onClick={() => fillDemo()}>
+        Demo User
+      </div>
     </div>
   );
 }
