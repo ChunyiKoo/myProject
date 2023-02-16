@@ -15,6 +15,7 @@ function AppHeader({ isLoaded }) {
             color: "blue",
             textDecoration: "none",
           }}
+          exact
           to="/spots/new"
         >
           Create a New Spot!

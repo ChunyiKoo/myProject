@@ -2,30 +2,69 @@ import React, { useState } from "react";
 //import * as sessionActions from "../../../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-//import "./LoginForm.css";
+import { createASpot } from "../../store/spots";
+import { useHistory } from "react-router-dom";
 
 const NewSpotsForm = () => {
   const dispatch = useDispatch();
   const [country, setCountry] = useState("");
-  const [street, setStreet] = useState("");
+  const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
   const [description, setDescription] = useState("");
-  const [spotTitle, setSpotTitle] = useState("");
-  const [photo, setPhoto] = useState("");
+  const [name, setName] = useState("");
+  const [url, setUrl] = useState("");
   const [price, setPrice] = useState(0);
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
+  const history = useHistory();
+
+  // setOnModalClose(history.push("/spots/"));
+
+  const fillDemo = () => {
+    setCountry("USA");
+    setAddress("123 Happy street");
+    setCity("Cherry");
+    setState("TX");
+    setLatitude(33);
+    setLongitude(-156);
+    setDescription("A very beautigul waterfront house");
+    setName("Cherry house");
+    setUrl("https://live.staticflickr.com/4050/4570420809_4f44ae5dba_n.jpg");
+    setPrice(233);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-    // return dispatch(sessionActions.login({ credential, password }))
-    //   .then(closeModal)
-    //   .catch(async (res) => {
-    //     const data = await res.json();
-    //     if (data && data.errors) setErrors(data.errors);
-    //   });
+
+    const newSpot = {
+      country,
+      address,
+      city,
+      state,
+      lat: latitude,
+      lng: longitude,
+      description,
+      name,
+      price,
+    };
+    // console.log("NewSpotsForm newSpot, url: ", newSpot, { url });
+    // const res = dispatch(createASpot(newSpot, { url }));
+    // console.log("NewSpotsForm res: ", res);
+    // if (res.ok) {
+    //   const spot = async () => await res.json();
+    //   console.log("NewSpotsForm res.json(): ", spot);
+    // }
+    dispatch(createASpot(newSpot, { url }))
+      //.then(closeModal)
+      .then((spot) => history.push(`/spots/${spot.id}`))
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) setErrors(data.errors);
+      });
   };
   return (
     <div className="new-spot-form-container">
@@ -41,6 +80,7 @@ const NewSpotsForm = () => {
           <input
             type="text"
             value={country}
+            placeholder="Country"
             onChange={(e) => setCountry(e.target.value)}
             required
           />
@@ -49,8 +89,8 @@ const NewSpotsForm = () => {
           Street
           <input
             type="text"
-            value={street}
-            onChange={(e) => setStreet(e.target.value)}
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
             required
           />
         </label>
@@ -72,6 +112,25 @@ const NewSpotsForm = () => {
             required
           />
         </label>
+
+        <label>
+          Latitude
+          <input
+            type="text"
+            value={latitude}
+            onChange={(e) => setLatitude(e.target.value)}
+            required
+          />
+        </label>
+        <label>
+          Longitude
+          <input
+            type="text"
+            value={longitude}
+            onChange={(e) => setLongitude(e.target.value)}
+            required
+          />
+        </label>
         <label>
           Describe your place to guest
           <textarea
@@ -84,8 +143,8 @@ const NewSpotsForm = () => {
           Create a title for your spot
           <input
             type="text"
-            value={spotTitle}
-            onChange={(e) => setSpotTitle(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
           />
         </label>
@@ -102,12 +161,16 @@ const NewSpotsForm = () => {
           Liven up your spot with photos
           <input
             type="text"
-            value={photo}
-            onChange={(e) => setPhoto(e.target.value)}
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
             required
           />
         </label>
+
         <button type="submit">Create Spot</button>
+        <div className="login-demo-user" onClick={() => fillDemo()}>
+          Demo Input
+        </div>
       </form>
     </div>
   );
