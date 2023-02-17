@@ -63,6 +63,7 @@ const NewSpotsForm = () => {
       .then((spot) => {
         console.log("NewSpot Form spot: ", spot);
         history.push(`/spots/${spot.id}`);
+        closeModal();
       })
       .catch(async (res) => {
         const data = await res.json();
