@@ -80,6 +80,26 @@ module.exports = {
           preview: true,
           spotId: 12,
         },
+        {
+          url: "https://live.staticflickr.com/4141/4911156189_a7aa9837ba_n.jpg",
+          preview: false,
+          spotId: 1,
+        },
+        {
+          url: "https://live.staticflickr.com/4050/4570420809_4f44ae5dba_n.jpg",
+          preview: false,
+          spotId: 1,
+        },
+        {
+          url: "https://live.staticflickr.com/4463/37832608796_95253f2aaf_w.jpg",
+          preview: false,
+          spotId: 1,
+        },
+        {
+          url: "https://live.staticflickr.com/632/22118108975_8c0a9b831b_n.jpg",
+          preview: false,
+          spotId: 1,
+        },
       ],
       {}
     );

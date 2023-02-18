@@ -1,23 +1,36 @@
 import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllSpots } from "../../store/spots";
+import { fetchAllCurrentSpots } from "../store/spots";
 
-function LandingPage() {
+function SpotsCurrent() {
   const dispatch = useDispatch();
 
-  const return_spots = useSelector((state) => state.spots.allSpots);
+  const return_spots = useSelector((state) => state.spots.allCurrent);
 
   const spots = Object.values(return_spots);
 
   useEffect(() => {
-    dispatch(fetchAllSpots());
+    dispatch(fetchAllCurrentSpots());
   }, [dispatch]);
 
-  console.log("LandingPage spots: ", spots);
+  console.log("SpotsCurrent spots: ", spots);
 
   return (
-    <div className="Landing-page-container">
+    <div className="SpotCurrent-container">
+      <div className="SpotCurrent-header-text">
+        <div className="SpotCurrent-header-box">
+          <h2>Manage Your Spots</h2>
+          <NavLink
+            style={{ textDecoration: "none", color: "blue" }}
+            exact
+            to="/spots/new"
+            //activeClassName="AppHeader-create-a-spot-link"
+          >
+            <button>Create a New Spot</button>
+          </NavLink>
+        </div>
+      </div>
       <div className="Landing-page">
         {spots.map((spot) => (
           <div className="Spots-info-container" key={`${spot.id}`}>
@@ -33,7 +46,11 @@ function LandingPage() {
                 {`${spot.avgRating}`}
               </div>
             </div>
-            <div className="Spots-price small-text">{`$${spot.price}`}</div>
+            <div className="Spots-current-price small-text">
+              {`$${spot.price}`}
+              <button>Update</button>
+              <button>Delete</button>
+            </div>
           </div>
         ))}
       </div>
@@ -41,4 +58,4 @@ function LandingPage() {
   );
 }
 
-export default LandingPage;
+export default SpotsCurrent;

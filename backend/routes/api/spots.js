@@ -290,12 +290,12 @@ router.get("/:spotId/reviews", async (req, res, next) => {
     include: [
       {
         model: User,
-        required: true,
+        // required: true,
         attributes: ["id", "firstName", "lastName"],
       },
       {
         model: ReviewImage,
-        required: true,
+        // required: true,
         attributes: ["id", "url"],
       },
     ],
@@ -348,6 +348,7 @@ router.post(
     let theReview = await Review.findOne({ where });
 
     if (theReview) {
+      console.log("hit backend error");
       res.status(403);
       return res.json({
         message: "User already has a review for this spot",

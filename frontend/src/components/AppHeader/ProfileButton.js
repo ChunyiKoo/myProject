@@ -1,4 +1,5 @@
 // frontend/src/components/Navigation/ProfileButton.js
+import { NavLink } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import * as sessionActions from "../../store/session";
@@ -50,6 +51,7 @@ function ProfileButton({ user }) {
         <div className={ulClassName} ref={ulRef}>
           <div>{"Hello, " + user.firstName}</div>
           <div>{user.email}</div>
+          <NavLink to="/spots/current">Manage Spots </NavLink>
           <div className="logout-button-container">
             <button className="logout-button" onClick={logout}>
               Log Out
