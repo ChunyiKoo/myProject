@@ -1,5 +1,36 @@
 import { csrfFetch } from "./csrf";
 //
+const EDIT_SPOT = "edit_a_spot";
+
+export const editASpot = (spot) => {
+  return {
+    type: EDIT_SPOT,
+    spot,
+  };
+};
+
+export const updateASpot = (data) => async (dispatch) => {
+  console.log("reducer updateASpot data:", data);
+  let spot;
+  const response1 = await csrfFetch(`/api/spots/${spot.id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  if (response1.ok) {
+    spot = await response1.json();
+    // dispatch(addASpot(spot));
+    dispatch(editASpot(spot));
+
+    console.log("reducer updateASpot spot:", spot);
+    return spot;
+  } else {
+    return response1;
+  }
+};
+
+//
 const LOAD_ALL_CURRENT_SPOTS = "load_all_current_spots";
 
 export const loadAllCurrentSpots = (spots) => {
@@ -100,6 +131,15 @@ const spotsReducer = (state = initialState, action) => {
   //console.log("before spotsReducer action.spot: ", action.spot);
   let newState = {};
   switch (action.type) {
+    case EDIT_SPOT:
+      //console.log("inside spotsReducer action.spot: ", action.spot);
+      newState = {
+        ...state,
+        allSpots: { ...state.allSpots },
+        singleSpot: { ...state.singleSpot },
+      };
+      newState.allSpots[action.spot.id] = action.spot;
+    //   return newState;
     case LOAD_ALL_CURRENT_SPOTS:
       console.log("LOAD_ALL_CURRENT_SPOTS");
       newState = {

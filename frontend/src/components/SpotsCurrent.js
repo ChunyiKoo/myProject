@@ -48,7 +48,15 @@ function SpotsCurrent() {
             </div>
             <div className="Spots-current-price small-text">
               {`$${spot.price}`}
-              <button>Update</button>
+              <NavLink
+                style={{ textDecoration: "none", color: "blue" }}
+                exact
+                to={`/spots/${spot.id}/edit`}
+                //activeClassName="AppHeader-create-a-spot-link"
+              >
+                <button>Update</button>
+              </NavLink>
+
               <button>Delete</button>
             </div>
           </div>

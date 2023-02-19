@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 //import * as sessionActions from "../../../../store/session";
-import { useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
-import { createASpot } from "../../store/spots";
-import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useModal } from "../context/Modal";
+import { useHistory, useParams } from "react-router-dom";
+import { fetchSingleSpot, updateASpot } from "../store/spots";
 
-const NewSpotsForm = () => {
-  const dispatch = useDispatch();
+const UpdateSpotForm = () => {
   const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -15,7 +14,7 @@ const NewSpotsForm = () => {
   const [longitude, setLongitude] = useState("");
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
-  const [url, setUrl] = useState("");
+  //const [url, setUrl] = useState("");
   const [price, setPrice] = useState(0);
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
@@ -23,18 +22,52 @@ const NewSpotsForm = () => {
   console.log("errors array: ", errors);
   // setOnModalClose(history.push("/spots/"));
 
-  const fillDemo = () => {
-    setCountry("USA");
-    setAddress("123 Happy street");
-    setCity("Cherry");
-    setState("TX");
-    setLatitude(33);
-    setLongitude(-156);
-    setDescription("A very beautigul waterfront house");
-    setName("Cherry house");
-    setUrl("https://live.staticflickr.com/4050/4570420809_4f44ae5dba_n.jpg");
-    setPrice(233);
+  // const fillDemo = () => {
+  //   setCountry("USA");
+  //   setAddress("123 Happy street");
+  //   setCity("Cherry");
+  //   setState("TX");
+  //   setLatitude(33);
+  //   setLongitude(-156);
+  //   setDescription("A very beautigul waterfront house");
+  //   setName("Cherry house");
+  //   //setUrl("https://live.staticflickr.com/4050/4570420809_4f44ae5dba_n.jpg");
+  //   setPrice(233);
+  // };
+
+  const dispatch = useDispatch();
+  const params = useParams();
+  const { spotId } = params;
+
+  let spots = useSelector((state) => state.spots);
+
+  useEffect(() => {
+    dispatch(fetchSingleSpot(spotId));
+  }, [dispatch, spotId]);
+
+  const initialData = () => {
+    setCountry(spots.singleSpot.country);
+    setAddress(spots.singleSpot.address);
+    setCity(spots.singleSpot.city);
+    setState(spots.singleSpot.state);
+    setLatitude(spots.singleSpot.lat);
+    setLongitude(spots.singleSpot.lng);
+    setDescription(spots.singleSpot.description);
+    setName(spots.singleSpot.name);
+    //setUrl("https://live.staticflickr.com/4050/4570420809_4f44ae5dba_n.jpg");
+    setPrice(spots.singleSpot.price);
   };
+  useEffect(() => {
+    initialData();
+    console.log("UpdateSpotForm spots: ", spots);
+  }, [spots.singleSpot]);
+
+  // useEffect(() => {
+  //   if (spots.singleSpot.id === spotId) {
+  //     initialData();
+  //     console.log("UpdateSpotForm run initialData(): ", spots);
+  //   }
+  // }, [spots.singleSpot, spotId]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -52,11 +85,11 @@ const NewSpotsForm = () => {
       price,
     };
 
-    dispatch(createASpot(newSpot, { url }))
+    dispatch(updateASpot(newSpot))
       //.then(closeModal)
       .then((spot) => {
         console.log("NewSpot Form spot: ", spot);
-        history.push(`/spots/${spot.id}`);
+        history.push("/spots/current");
         closeModal();
       })
       .catch(async (res) => {
@@ -66,7 +99,7 @@ const NewSpotsForm = () => {
   };
   return (
     <div className="new-spot-form-container">
-      <h2>Create a new Spot</h2>
+      <h2>Update the Spot</h2>
       <form className="new-spot-form" onSubmit={handleSubmit}>
         {/* <ul>
           {errors.map((error, idx) => (
@@ -164,7 +197,7 @@ const NewSpotsForm = () => {
             required
           />
         </label>
-        <label>
+        {/* <label>
           Liven up your spot with photos
           <input
             type="text"
@@ -172,14 +205,14 @@ const NewSpotsForm = () => {
             onChange={(e) => setUrl(e.target.value)}
             required
           />
-        </label>
+        </label> */}
 
-        <button type="submit">Create Spot</button>
-        <div className="login-demo-user" onClick={() => fillDemo()}>
+        <button type="submit">Update Spot</button>
+        {/* <div className="login-demo-user" onClick={() => fillDemo()}>
           Demo Input
-        </div>
+        </div> */}
       </form>
     </div>
   );
 };
-export default NewSpotsForm;
+export default UpdateSpotForm;
