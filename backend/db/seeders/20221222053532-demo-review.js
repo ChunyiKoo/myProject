@@ -26,7 +26,7 @@ module.exports = {
           userId: 1,
           spotId: 3,
           review:
-            "The location is private, you can't see the main house or any other houses. Enjoy the cool mountain mornings.Please read Other Things To Note under Extra Details",
+            "The location is private, you can't see the main house or any other houses. ",
           stars: 5,
         },
         {
@@ -40,7 +40,7 @@ module.exports = {
           userId: 3,
           spotId: 2,
           review:
-            "We had a wonderful time at Elise’s place. The place is peaceful and quite, well equipped and closer to beaches, and restaurants. The unit is specious, clean and offers an amazing view from the outdoor deck/patio.",
+            "We had a wonderful time at Elise place. The place is peaceful and quite, well equipped and closer to beaches, and restaurants. ",
           stars: 3,
         },
 
@@ -48,21 +48,21 @@ module.exports = {
           userId: 1,
           spotId: 3,
           review:
-            "We enjoyed a restful few days at Shelly’s place! The house is cozy, SPOTLESS, and has a killer view. I would highly recommend as an easy escape from busy city life.",
+            "We enjoyed a restful few days at Shelly place! The house is cozy, SPOTLESS, and has a killer view. ",
           stars: 4,
         },
         {
           userId: 2,
           spotId: 1,
           review:
-            "For anyone who is looking for a perfect getaway this is the PERFECT HOME.  Thank you for being attentive to our needs and being so responsive and sweet Shelly!",
+            "For anyone who is looking for a perfect getaway this is the PERFECT HOME.  ",
           stars: 2,
         },
         {
           userId: 3,
           spotId: 2,
           review:
-            "This place is AMAZING. If you’re second guessing or wavering to book, stop right now and BOOK!The views from this deck, the seals that visit, and the birds alone make it worth it. !",
+            "This place is AMAZING. If you are second guessing or wavering to book, stop right now and BOOK!",
           stars: 3,
         },
       ],
