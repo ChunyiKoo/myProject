@@ -1,5 +1,5 @@
 // frontend/src/components/Navigation/ProfileButton.js
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import * as sessionActions from "../../store/session";
@@ -8,6 +8,7 @@ function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+  const history = useHistory();
 
   const openMenu = () => {
     if (showMenu) return;
@@ -31,6 +32,7 @@ function ProfileButton({ user }) {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
+    history.push("/");
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
@@ -49,10 +51,18 @@ function ProfileButton({ user }) {
           </div>
         </button>
         <div className={ulClassName} ref={ulRef}>
-          <div>{"Hello, " + user.firstName}</div>
-          <div>{user.email}</div>
-          <NavLink to="/spots/current">Manage Spots </NavLink>
-          <div className="logout-button-container">
+          <div className="dropdown-content">{"Hello, " + user.firstName}</div>
+          <div className="dropdown-content">{user.email}</div>
+          <div className="dropdown-content manage-spot-link">
+            <NavLink
+              style={{ textDecoration: "none" }}
+              exact
+              to="/spots/current"
+            >
+              Manage Spots{" "}
+            </NavLink>
+          </div>
+          <div className="dropdown-content logout-button-container">
             <button className="logout-button" onClick={logout}>
               Log Out
             </button>

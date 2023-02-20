@@ -60,7 +60,7 @@ const UpdateSpotForm = () => {
   useEffect(() => {
     initialData();
     console.log("UpdateSpotForm spots: ", spots);
-  }, [spots.singleSpot]);
+  }, [spots.singleSpot, initialData]);
 
   // useEffect(() => {
   //   if (spots.singleSpot.id === spotId) {
@@ -112,7 +112,7 @@ const UpdateSpotForm = () => {
           <input
             type="text"
             value={country}
-            placeholder="Country"
+            /*  placeholder="Country"*/
             onChange={(e) => setCountry(e.target.value)}
             required
           />

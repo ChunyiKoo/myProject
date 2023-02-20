@@ -6,6 +6,8 @@ import { fetchAllReviews } from "../store/reviews";
 import * as sessionActions from "../store/session";
 import OpenModelButton from "./AppHeader/SignupLoginMenuButton/OpenModalButton";
 import ReviewFormModal from "./ReviewFormModal";
+import OpenModalButton from "../components/AppHeader/SignupLoginMenuButton/OpenModalButton";
+import DeleteReviewModal from "./DeleteReviewModal";
 
 function SpotDetail() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -20,8 +22,14 @@ function SpotDetail() {
   //console.log("SpotDetail spotId,spots: ", spotId, spots);
 
   useEffect(() => {
-    dispatch(fetchSingleSpot(spotId));
+    dispatch(fetchAllReviews(spotId));
   }, [dispatch, spotId]);
+
+  const reviews = useSelector((state) => state.reviews);
+
+  useEffect(() => {
+    dispatch(fetchSingleSpot(spotId));
+  }, [dispatch, spotId, reviews]);
 
   useEffect(() => {
     // restore session user thunk action, if success
@@ -29,26 +37,28 @@ function SpotDetail() {
   }, [dispatch]);
   const sessionUser = useSelector((state) => state.session.user);
 
-  useEffect(() => {
-    dispatch(fetchAllReviews(spotId));
-  }, [dispatch, spotId]);
-
-  const reviews = useSelector((state) => state.reviews);
   const spotReviews = Object.values(reviews.spot);
-  const isReviewed = spotReviews.find(
-    (review) => review.userId === sessionUser.id
-  );
+  //console.log(" inside spotdetail spotReviews: ", spotReviews);
+  //console.log(" inside spotdetail sessionUser: ", sessionUser);
+  let isReviewedBySessionUser;
+  if (sessionUser) {
+    isReviewedBySessionUser = spotReviews.find(
+      (review) => review.userId === sessionUser.id
+    );
+  }
 
   let postReviewButton;
   if (
     sessionUser &&
     sessionUser.id !== spots.singleSpot.ownerId &&
-    isReviewed === undefined
+    isReviewedBySessionUser === undefined
   ) {
     postReviewButton = (
       <OpenModelButton
         buttonText="Post Your Review"
-        modalComponent={<ReviewFormModal spotId={spotId} />}
+        modalComponent={
+          <ReviewFormModal spotId={spotId} spotName={spots.singleSpot.name} />
+        }
       />
     );
     // postReviewButton = <button>Post Your Review</button>;
@@ -58,12 +68,23 @@ function SpotDetail() {
     return null;
   }
 
+  let reviewStr;
+  if (spots.singleSpot) {
+    if (spots.singleSpot.numReviews >= 2) {
+      reviewStr = `${spots.singleSpot?.numReviews} reviews`;
+    } else {
+      reviewStr = `${spots.singleSpot?.numReviews} review`;
+    }
+  }
   if (spots !== {} && spots !== null && spots !== undefined)
     return (
       <>
-        <div>
-          <div className="SpotDetail-all-outer-container">
-            <h1>{`${spots.singleSpot?.name}`}</h1>
+        <div className="SpotDetail-all-outer-container">
+          <div className="SpotDetail-all-container">
+            <div className="SpotDetail-page-title">
+              <h1>{`${spots.singleSpot?.name}`}</h1>
+              <h2>{`${spots.singleSpot?.city}, ${spots.singleSpot?.state}, ${spots.singleSpot?.country}`}</h2>
+            </div>
             <div className="SpotDetail-all-photo-container">
               <div className="SpotDetail-all-photo-box">
                 {spots.singleSpot.SpotImages?.map((image, idx) => (
@@ -86,18 +107,48 @@ function SpotDetail() {
                 ))}
               </div>
             </div>
-            <div>{`$${spots.singleSpot?.price}`}</div>
-            <div>
-              <div>{`review count: ${spots.singleSpot?.numReviews}`}</div>
+            <div className="spot-detail-price-star-container">
+              <div></div>
+              <div className="spot-detail-price-star-reserve-box">
+                <div className="spot-detail-price-star-box">
+                  <div>{`$${spots.singleSpot?.price} night`}</div>
+                  <div>
+                    <i className="fa-sharp fa-solid fa-star fa-sm"></i>
+                    {`${spots.singleSpot?.avgStarRating}`}
+                  </div>
+                </div>
+                <button>Reserve</button>
+              </div>
+            </div>
+            <div className="spot-detail-star-review-button-box">
+              <div className="spot-detail-star-review-box">
+                <div>
+                  <i className="fa-sharp fa-solid fa-star fa-sm"></i>
+                  {`${spots.singleSpot?.avgStarRating}`}
+                </div>
+                <div>{reviewStr}</div>
+              </div>
               {postReviewButton}
             </div>
-            {spotReviews.map((el, idx) => (
-              <div key={idx}>
-                <div>{el.User.firstName}</div>
-                <div>{el.createdAt}</div>
-                <div>{el.review}</div>
-              </div>
-            ))}
+            <div className="spot-detail-review-container">
+              {spotReviews.map((el, idx) => (
+                <div key={idx}>
+                  <div className="spot-detail-review-detail">
+                    {el.User.firstName}
+                  </div>
+                  {sessionUser?.id === el.userId && (
+                    <OpenModalButton
+                      buttonText="Delete"
+                      modalComponent={<DeleteReviewModal reviewId={el.id} />}
+                    />
+                  )}
+                  <div className="spot-detail-review-detail">
+                    {el.createdAt.slice(0, 10)}
+                  </div>
+                  <div className="spot-detail-review-detail">{el.review}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </>

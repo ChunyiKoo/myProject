@@ -3,9 +3,13 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../context/Modal";
 import { createAReview } from "../store/reviews";
+import StarsRating from "react-star-rate";
 
-function ReviewFormModal({ spotId }) {
+function ReviewFormModal({ spotId, spotName }) {
   const dispatch = useDispatch();
+
+  const [rating, setRating] = useState(0);
+  //const [hover, setHover] = useState(null);
   const [review, setReview] = useState("");
   const [stars, setStars] = useState(0);
   const [errors, setErrors] = useState([]);
@@ -21,6 +25,9 @@ function ReviewFormModal({ spotId }) {
   //   setErrors([]);
   //   setDisabled(true);
   // });
+  const handleStarClick = (nextValue, prevValue, name) => {
+    setRating(nextValue);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -57,7 +64,7 @@ function ReviewFormModal({ spotId }) {
   return (
     <div className="review-form-header">
       <div>
-        <h1>How was your stay?</h1>
+        <h1>How was your stay at {`${spotName}`}?</h1>
       </div>
       <form className="review-form" onSubmit={handleSubmit}>
         <div>
@@ -82,8 +89,16 @@ function ReviewFormModal({ spotId }) {
           }}
           required
         />
-        GeneralStar
-        <label>
+        <div>
+          <StarsRating
+            value={stars}
+            onChange={(value) => {
+              value.toFixed();
+              setStars(value);
+            }}
+          />
+        </div>
+        {/* <label>
           star
           <input
             type="number"
@@ -91,7 +106,7 @@ function ReviewFormModal({ spotId }) {
             onChange={(e) => setStars(e.target.value)}
             required
           />
-        </label>
+        </label> */}
         <button
           className="review-form-submit-button"
           disabled={disabled}

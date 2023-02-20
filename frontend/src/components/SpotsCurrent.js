@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCurrentSpots } from "../store/spots";
+import OpenModalButton from "./AppHeader/SignupLoginMenuButton/OpenModalButton";
+import DeleteSpotModal from "./DeleteSpotModal";
 
 function SpotsCurrent() {
   const dispatch = useDispatch();
@@ -42,7 +44,7 @@ function SpotsCurrent() {
             <div className="Spots-info-text-container">
               <div className="small-text">{`${spot.city}, ${spot.state}`}</div>
               <div className="small-text">
-                <i className="fa-sharp fa-solid fa-star"></i>
+                <i className="fa-sharp fa-solid fa-star fa-sm"></i>
                 {`${spot.avgRating}`}
               </div>
             </div>
@@ -56,8 +58,10 @@ function SpotsCurrent() {
               >
                 <button>Update</button>
               </NavLink>
-
-              <button>Delete</button>
+              <OpenModalButton
+                buttonText="Delete"
+                modalComponent={<DeleteSpotModal spotId={spot.id} />}
+              />
             </div>
           </div>
         ))}

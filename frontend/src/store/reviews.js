@@ -1,4 +1,25 @@
 import { csrfFetch } from "./csrf";
+//
+const DELETE_SPOT_REVIEW = "delete_a_spot_review";
+
+export const removeASpotReview = (reviewId) => {
+  return {
+    type: DELETE_SPOT_REVIEW,
+    reviewId,
+  };
+};
+
+export const deleteASpotReview = (reviewId) => async (dispatch) => {
+  console.log("reducer deleteASpot data:");
+
+  const response = await csrfFetch(`/api/spots/${reviewId}`, {
+    method: "DELETE",
+  });
+  if (response.ok) {
+    dispatch(removeASpotReview(reviewId));
+  }
+  return response;
+};
 
 const LOAD_ALL_REVIEWS = "load_all_reviews";
 
@@ -54,13 +75,22 @@ export const createAReview = (data, spotId) => async (dispatch) => {
 const initialState = { spot: {}, user: {} };
 
 const reviewReducer = (state = initialState, action) => {
-  console.log("first line reviewReducer action.review: ", action.reviews);
+  //console.log("first line reviewReducer action.reviewId: ", action.reviewId);
   let newState = {};
   switch (action.type) {
-    case LOAD_ALL_REVIEWS:
+    case DELETE_SPOT_REVIEW:
       newState = {
         ...state,
         spot: { ...state.spot },
+        user: { ...state.user },
+      };
+      delete newState.spot[action.reviewId];
+      return newState;
+    case LOAD_ALL_REVIEWS:
+      //empty other spot's review
+      newState = {
+        ...state,
+        spot: {},
         user: { ...state.user },
       };
 

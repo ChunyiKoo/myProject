@@ -1,5 +1,27 @@
 import { csrfFetch } from "./csrf";
 //
+const DELETE_SPOT = "delete_a_spot";
+
+export const removeASpot = (spotId) => {
+  return {
+    type: DELETE_SPOT,
+    spotId,
+  };
+};
+
+export const deleteASpot = (spotId) => async (dispatch) => {
+  console.log("reducer deleteASpot data:");
+
+  const response = await csrfFetch(`/api/spots/${spotId}`, {
+    method: "DELETE",
+  });
+  if (response.ok) {
+    dispatch(removeASpot(spotId));
+  }
+  return response;
+};
+
+//
 const EDIT_SPOT = "edit_a_spot";
 
 export const editASpot = (spot) => {
@@ -131,15 +153,32 @@ const spotsReducer = (state = initialState, action) => {
   //console.log("before spotsReducer action.spot: ", action.spot);
   let newState = {};
   switch (action.type) {
+    case DELETE_SPOT:
+      console.log(
+        "inside spotsReducer DELETE_SPOT action.spotId: ",
+        action.spotId
+      );
+      newState = {
+        ...state,
+        allCurrent: { ...state.allCurrent },
+        allSpots: { ...state.allSpots },
+        singleSpot: { ...state.singleSpot },
+      };
+      delete newState.allSpots[action.spotId];
+      delete newState.allCurrent[action.spotId];
+      return newState;
+
     case EDIT_SPOT:
       //console.log("inside spotsReducer action.spot: ", action.spot);
       newState = {
         ...state,
+        allCurrent: { ...state.allCurrent },
         allSpots: { ...state.allSpots },
         singleSpot: { ...state.singleSpot },
       };
       newState.allSpots[action.spot.id] = action.spot;
-    //   return newState;
+      newState.allCurrent[action.spot.id] = action.spot;
+      return newState;
     case LOAD_ALL_CURRENT_SPOTS:
       console.log("LOAD_ALL_CURRENT_SPOTS");
       newState = {
@@ -170,6 +209,7 @@ const spotsReducer = (state = initialState, action) => {
       //console.log("inside spotsReducer action.spot: ", action.spot);
       newState = {
         ...state,
+        allCurrent: { ...state.allCurrent },
         allSpots: { ...state.allSpots },
         singleSpot: { ...state.singleSpot },
       };
@@ -180,6 +220,7 @@ const spotsReducer = (state = initialState, action) => {
       console.log("inside spotsReducer action.spot: ", action.spot);
       newState = {
         ...state,
+        allCurrent: { ...state.allCurrent },
         allSpots: { ...state.allSpots },
         singleSpot: { ...action.spot },
       };

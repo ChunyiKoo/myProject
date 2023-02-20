@@ -15,9 +15,45 @@ h2 {
   font-weight: bold;
 }
 
-.error-message {
-  color: red;
+starbutton {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
 }
+
+.on {
+  color: #000;
+}
+
+.off {
+  color: #ccc;
+}
+
+textarea {
+  width: 100%;
+  height: 150px;
+  background-color: #e8f0fe;
+  /* 
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none; */
+}
+
+.error-message {
+  color: #FF5A5F;
+}
+
+/* .fa-star,
+.fa-solid,
+.fa-star {
+  height: 5px;
+  width: 5px;
+} */
 
 /***** modal *****/
 #modal {
@@ -43,6 +79,7 @@ h2 {
 #modal-content {
   position: absolute;
   background-color: white;
+  border-radius: 9px;
 }
 
 /***** AppHeader *****/
@@ -89,16 +126,25 @@ h2 {
   position: absolute;
   right: -20px;
   top: calc(100% + .55rem);
-  gap: 10px;
+  /* gap: 10px; */
   background-color: white;
-  padding: .75rem;
-  border-radius: .25rem;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+  /* padding-bottom: .35rem; */
+  /* border-radius: .25rem; */
+  box-shadow: 0 2px 5px 0 gray;
+}
+
+.dropdown-content {
+  padding: .20rem .75rem;
 }
 
 .logout-button-container {
   display: flex;
   justify-content: center;
+}
+
+.manage-spot-link {
+  border-top: 2px solid gray;
+  border-bottom: 2px solid gray;
 }
 
 .logout-button {
@@ -107,9 +153,9 @@ h2 {
   padding: 5%;
   font-size: 16pt;
   cursor: pointer;
-  background-color: grey;
+  background-color: #999999;
   color: white;
-  border-color: rgb(134, 134, 134, 0.1);
+  border-color: #999999;
 }
 
 /* login form */
@@ -118,11 +164,16 @@ h2 {
   height: 30px;
 }
 
-.login-form-header {
+.delete-spot-form-container,
+.delete-review-form-container,
+.login-form-container,
+.signup-form-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 15px;
+  border-radius: 9px;
+  margin: 10px;
 }
 
 label,
@@ -133,10 +184,12 @@ input {
 }
 
 input {
-  background-color: rgb(235, 245, 245);
+  background-color: #e8f0fe;
 }
 
-.login-form {
+.login-form,
+.signup-form,
+.review-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -145,13 +198,24 @@ input {
   border-radius: 15px;
 }
 
-.login-form-submit-button {
+.delete-spot-button,
+.cancel-delete-spot-button,
+.cancel-delete-review-button,
+.delete-review-button,
+.login-form-submit-button,
+.signup-form-submit-button,
+.review-form-submit-button {
   display: block;
   width: 100%;
   margin-top: 0.4rem;
   height: 45px;
-  background-color: rgb(233, 67, 100);
+  background-color: #FF5A5F;
   color: white;
+}
+
+.cancel-delete-spot-button,
+.cancel-delete-review-button {
+  background-color: rgb(109, 109, 109);
 }
 
 .login-demo-user {
@@ -165,7 +229,7 @@ input {
   display: flex;
   align-items: center;
   gap: 5px;
-  color: red;
+  color: #FF5A5F;
 }
 
 .home-icon-text {
@@ -276,65 +340,147 @@ input {
 }
 
 .SpotDetail-all-outer-container {
-  margin: 60px;
-  width: 1250px;
+
+  width: 100%vw;
+  min-width: 1200px;
+  padding: 60px;
+}
+
+.SpotDetail-all-container {
+
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.SpotDetail-page-title {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
 }
 
 .SpotDetail-all-photo-container {
-  margin: 60px;
-  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
 }
 
 .SpotDetail-all-photo-box {
+  width: 100%;
   display: grid;
   grid-template-rows: repeat(2, 1fr);
   grid-template-columns: repeat(4, 1fr);
-
+  margin: 60px;
   height: 412px;
-  row-gap: 2px;
-  column-gap: 2px;
+  row-gap: 0.5rem;
+  column-gap: 0.5rem;
 }
 
 .SpotDetail-photo-big-box {
   height: 412px;
   grid-area: 1/1/3/3;
+  overflow: hidden;
 }
 
 .Spots-photo-big {
-
   height: 412px;
   object-fit: contain;
 
 }
 
 .Spots-photo-small {
-  width: 100%;
   height: 205px;
-  object-fit: fill;
+  object-fit: contain;
 }
 
 .SpotDetail-photo-small-box-1 {
+  overflow: hidden;
   /* width: 50%; */
   height: 205px;
   grid-area: 1/3/2/4;
 }
 
 .SpotDetail-photo-small-box-2 {
+  overflow: hidden;
   /* width: 50%; */
   height: 205px;
   grid-area: 1/4/2/5;
 }
 
 .SpotDetail-photo-small-box-3 {
+  overflow: hidden;
   /* width: 50%; */
   height: 205px;
   grid-area: 2/3/3/4;
 }
 
 .SpotDetail-photo-small-box-4 {
+  overflow: hidden;
   /* width: 50%; */
   height: 205px;
   grid-area: 2/4/3/5;
+}
+
+.spot-detail-price-star-container {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: #999999;
+  margin: 15px 60px;
+}
+
+.spot-detail-price-star-reserve-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 18%;
+  height: 70px;
+  box-shadow: 0 2px 5px 0 black;
+
+  padding: .75rem 2rem;
+  border-radius: 9px;
+}
+
+.spot-detail-price-star-box {
+  display: flex;
+  justify-content: space-between;
+}
+
+.spot-detail-star-review-container {
+  display: flex;
+  justify-content: start;
+}
+
+.spot-detail-star-review-button-box {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  padding: 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-top: 2px solid gray;
+
+}
+
+.spot-detail-star-review-box {
+  width: 18%;
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.spot-detail-review-container {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.spot-detail-review-detail {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 /* Spots Current */
@@ -358,6 +504,14 @@ input {
   width: 80%;
   margin-top: 60px;
   display: flex;
+}
+
+
+
+/*****Review Form Modal*****/
+.review-form-header {
+  padding: 10px;
+
 }
 
 /* .SpotCurrent-header-box {} */

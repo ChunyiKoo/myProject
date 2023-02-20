@@ -43,7 +43,7 @@ function ProfileButton({ user }) {
 
         <button className="profile-button" onClick={openMenu}>
           <div className="profile-icon-container">
-            <i class="fa-solid fa-bars"></i>
+            <i className="fa-solid fa-bars"></i>
             <i className="fas fa-user-circle fa-lg" onClick={openMenu} />
           </div>
         </button>

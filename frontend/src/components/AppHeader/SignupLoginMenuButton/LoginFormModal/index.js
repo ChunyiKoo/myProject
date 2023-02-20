@@ -29,7 +29,7 @@ function LoginFormModal() {
   };
 
   return (
-    <div className="login-form-header">
+    <div className="login-form-container">
       <div>
         <h1>Log In</h1>
       </div>
@@ -62,7 +62,11 @@ function LoginFormModal() {
           />
         </label>
 
-        <button className="login-form-submit-button" type="submit">
+        <button
+          disabled={credential.length < 4 || password.length < 6}
+          className="login-form-submit-button"
+          type="submit"
+        >
           Log In
         </button>
       </form>

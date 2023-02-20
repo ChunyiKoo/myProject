@@ -202,8 +202,8 @@ router.get("/", validateGetSpot, async (req, res, next) => {
       console.log(Review);
     });
     console.log({ count, sum });
-    if (count !== 0) spot.avgRating = sum / count;
-    else spot.avgRating = "Has not been rated yet";
+    if (count !== 0) spot.avgRating = (sum / count).toFixed(2);
+    else spot.avgRating = "New";
     delete spot.Reviews;
   });
 
@@ -248,8 +248,8 @@ router.get("/current", requireAuth, async (req, res, next) => {
       console.log(Review);
     });
     console.log({ count, sum });
-    if (count === 0) spot.avgRating = "Has not been rated yet";
-    else spot.avgRating = sum / count;
+    if (count === 0) spot.avgRating = "New";
+    else spot.avgRating = (sum / count).toFixed(2);
     delete spot.Reviews;
   });
 

@@ -39,10 +39,21 @@ function SignupFormModal() {
     ]);
   };
 
+  const fillDemo = () => {
+    setEmail("demo10@user.io");
+    setUsername("marysmith");
+    setFirstName("Mary");
+    setLastName("Smith");
+    setPassword("mypassword");
+    setConfirmPassword("mypassword");
+  };
+
   return (
-    <>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="signup-form-container">
+      <div>
+        <h1>Sign Up</h1>
+      </div>
+      <form className="signup-form" onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => (
             <li key={idx}>{error}</li>
@@ -102,9 +113,25 @@ function SignupFormModal() {
             required
           />
         </label>
-        <button type="submit">Sign Up</button>
+        <button
+          disabled={
+            password.length < 6 ||
+            username.length < 4 ||
+            email.length === 0 ||
+            firstName.length === 0 ||
+            lastName.length === 0 ||
+            password !== confirmPassword
+          }
+          className="signup-form-submit-button"
+          type="submit"
+        >
+          Sign Up
+        </button>
       </form>
-    </>
+      <div className="signup-demo-user" onClick={() => fillDemo()}>
+        Demo User
+      </div>
+    </div>
   );
 }
 
