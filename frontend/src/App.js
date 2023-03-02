@@ -8,6 +8,7 @@ import LandingPage from "./components/LandingPage";
 import SpotDetail from "./components/SpotDetail";
 import SpotsCurrent from "./components/SpotsCurrent";
 import UpdateSpotForm from "./components/UpdateSpotForm";
+import ReviewCurrent from "./components/ReviewCurrent";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,6 +37,11 @@ function App() {
         {isLoaded && (
           <Route path="/spots/current">
             <SpotsCurrent />
+          </Route>
+        )}
+        {isLoaded && (
+          <Route path="/reviews/current">
+            <ReviewCurrent />
           </Route>
         )}
         <Route path="/spots/:spotId">

@@ -90,7 +90,7 @@ const UpdateSpotForm = () => {
       //.then(closeModal)
       .then((spot) => {
         console.log("NewSpot Form spot: ", spot);
-        history.push("/spots/current");
+        history.push(`/spots/${spotId}`);
         closeModal();
       })
       .catch(async (res) => {
@@ -101,7 +101,7 @@ const UpdateSpotForm = () => {
   };
   return (
     <div className="new-spot-form-container">
-      <h2>Update the Spot</h2>
+      <h2>Update your Spot</h2>
       <form className="new-spot-form" onSubmit={handleSubmit}>
         {/* <ul>
           {errors.map((error, idx) => (
@@ -209,7 +209,7 @@ const UpdateSpotForm = () => {
           />
         </label> */}
 
-        <button type="submit">Update Spot</button>
+        <button type="submit">Update your Spot</button>
         {/* <div className="login-demo-user" onClick={() => fillDemo()}>
           Demo Input
         </div> */}

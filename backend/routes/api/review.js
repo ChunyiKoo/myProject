@@ -192,12 +192,10 @@ router.get("/current", requireAuth, async (req, res, next) => {
     include: [
       {
         model: User,
-        required: true,
         attributes: ["id", "firstName", "lastName"],
       },
       {
         model: Spot,
-        required: true,
         attributes: {
           exclude: [
             "description",
@@ -213,7 +211,6 @@ router.get("/current", requireAuth, async (req, res, next) => {
       },
       {
         model: ReviewImage,
-        required: true,
         attributes: ["id", "url"],
       },
     ],

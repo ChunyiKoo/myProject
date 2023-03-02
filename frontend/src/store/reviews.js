@@ -1,5 +1,24 @@
 import { csrfFetch } from "./csrf";
 //
+const LOAD_ALL_CURRENT_REVIEWS = "load_all_current_reviews";
+
+export const loadAllCurrentReviews = (reviews) => {
+  return {
+    type: LOAD_ALL_CURRENT_REVIEWS,
+    reviews,
+  };
+};
+
+//current user reviews
+export const fetchAllCurrentReviews = () => async (dispatch) => {
+  console.log("thunk action creator fetchAllCurrentReviews");
+  const response = await csrfFetch(`/api/reviews/current`);
+  const reviews = await response.json();
+  console.log("thunk action creator fetchAllCurrentReviews reviews: ", reviews);
+  dispatch(loadAllCurrentReviews(reviews));
+};
+
+//
 const DELETE_SPOT_REVIEW = "delete_a_spot_review";
 
 export const removeASpotReview = (reviewId) => {
@@ -83,6 +102,19 @@ const reviewReducer = (state = initialState, action) => {
   console.log("first line reviewReducer action: ", action);
   let newState = {};
   switch (action.type) {
+    case LOAD_ALL_CURRENT_REVIEWS:
+      //empty other spot's review
+      newState = {
+        ...state,
+        spot: { ...state.spot },
+        user: {},
+      };
+
+      action.reviews.Reviews.forEach((review) => {
+        newState.user[review.id] = review;
+      });
+      return newState;
+
     case DELETE_SPOT_REVIEW:
       newState = {
         ...state,
@@ -90,6 +122,7 @@ const reviewReducer = (state = initialState, action) => {
         user: { ...state.user },
       };
       delete newState.spot[action.reviewId];
+      delete newState.user[action.reviewId];
       return newState;
     case LOAD_ALL_REVIEWS:
       //empty other spot's review
