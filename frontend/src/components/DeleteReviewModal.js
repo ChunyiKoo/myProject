@@ -1,11 +1,11 @@
-// frontend/src/components/LoginFormModal/index.js
+// frontend/src/components/DeleteReviewModal.js
 import React, { useState } from "react";
 import { deleteASpotReview } from "../store/reviews";
 import { useDispatch } from "react-redux";
 import { useModal } from "../context/Modal";
 //import "./LoginForm.css";
 
-function DeleteSpotModal({ reviewId }) {
+function DeleteReviewModal({ reviewId }) {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
@@ -16,6 +16,7 @@ function DeleteSpotModal({ reviewId }) {
       .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
+        console.log("DeleteReviewModal deleteASpotReview data", data);
         if (data && data.errors) setErrors(data.errors);
         closeModal();
       });
@@ -50,4 +51,4 @@ function DeleteSpotModal({ reviewId }) {
   );
 }
 
-export default DeleteSpotModal;
+export default DeleteReviewModal;

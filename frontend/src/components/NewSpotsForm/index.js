@@ -16,7 +16,7 @@ const NewSpotsForm = () => {
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState();
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
   const history = useHistory();
@@ -68,20 +68,22 @@ const NewSpotsForm = () => {
     <div className="new-spot-form-container">
       <h2>Create a new Spot</h2>
       <form className="new-spot-form" onSubmit={handleSubmit}>
-        {/* <ul>
-          {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
-          ))}
-        </ul> */}
+        <ul className="error-message">
+          {errors?.name === "SequelizeValidationError" &&
+            errors.errors.map((error, idx) => (
+              <li key={idx}>{error.message}</li>
+            ))}
+        </ul>
         <label>
           Country
           {<p className="error-message">{errors?.county}</p>}
           <input
             type="text"
             value={country}
-            placeholder="Country"
+            placeholder="country"
             onChange={(e) => setCountry(e.target.value)}
             required
+            minLength="2"
           />
         </label>
         <label>
@@ -90,8 +92,10 @@ const NewSpotsForm = () => {
           <input
             type="text"
             value={address}
+            placeholder="address"
             onChange={(e) => setAddress(e.target.value)}
             required
+            minLength="2"
           />
         </label>
         <label>
@@ -100,8 +104,10 @@ const NewSpotsForm = () => {
           <input
             type="text"
             value={city}
+            placeholder="city"
             onChange={(e) => setCity(e.target.value)}
             required
+            minLength="2"
           />
         </label>
         <label>
@@ -110,8 +116,10 @@ const NewSpotsForm = () => {
           <input
             type="text"
             value={state}
+            placeholder="state"
             onChange={(e) => setState(e.target.value)}
             required
+            minlength="2"
           />
         </label>
 
@@ -121,8 +129,11 @@ const NewSpotsForm = () => {
           <input
             type="text"
             value={latitude}
+            placeholder="latitude"
             onChange={(e) => setLatitude(e.target.value)}
             required
+            min="0"
+            max="90"
           />
         </label>
         <label>
@@ -131,8 +142,11 @@ const NewSpotsForm = () => {
           <input
             type="text"
             value={longitude}
+            placeholder="longitude"
             onChange={(e) => setLongitude(e.target.value)}
             required
+            min="-180"
+            max="180"
           />
         </label>
         <label>
@@ -140,18 +154,24 @@ const NewSpotsForm = () => {
           {<p className="error-message">{errors?.description}</p>}
           <textarea
             value={description}
+            placeholder="description"
             onChange={(e) => setDescription(e.target.value)}
             required
+            minlength="3"
           />
         </label>
         <label>
           Create a title for your spot
-          {<p className="error-message">{errors?.name}</p>}
+          {errors?.name !== "SequelizeValidationError" && (
+            <p className="error-message">{errors?.name}</p>
+          )}
           <input
             type="text"
             value={name}
+            placeholder="name"
             onChange={(e) => setName(e.target.value)}
             required
+            minlength="2"
           />
         </label>
         <label>
@@ -160,8 +180,10 @@ const NewSpotsForm = () => {
           <input
             type="number"
             value={price}
+            placeholder="price"
             onChange={(e) => setPrice(e.target.value)}
             required
+            min="0"
           />
         </label>
         <label>
@@ -169,6 +191,7 @@ const NewSpotsForm = () => {
           <input
             type="text"
             value={url}
+            placeholder="url"
             onChange={(e) => setUrl(e.target.value)}
             required
           />

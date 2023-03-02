@@ -55,11 +55,20 @@ function ProfileButton({ user }) {
           <div className="dropdown-content">{user.email}</div>
           <div className="dropdown-content manage-spot-link">
             <NavLink
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: "none", fontSize: "14pt" }}
               exact
               to="/spots/current"
             >
               Manage Spots{" "}
+            </NavLink>
+          </div>
+          <div className="dropdown-content manage-spot-link">
+            <NavLink
+              style={{ textDecoration: "none", fontSize: "14pt" }}
+              exact
+              to="/reviews/current"
+            >
+              Manage Reviews{" "}
             </NavLink>
           </div>
           <div className="dropdown-content logout-button-container">

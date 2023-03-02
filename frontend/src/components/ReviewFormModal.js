@@ -1,4 +1,4 @@
-// frontend/src/components/LoginFormModal/index.js
+// frontend/src/components/ReviewFormModal.js
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../context/Modal";
@@ -16,15 +16,6 @@ function ReviewFormModal({ spotId, spotName }) {
   const [disabled, setDisabled] = useState(true);
   const { closeModal } = useModal();
 
-  // useEffect(() => {
-  //   console.log("*****ReviewFormModal*******errors:", errors);
-  // }, [dispatch, errors]);
-
-  // setOnModalClose(() => {
-  //   setStars(0);
-  //   setErrors([]);
-  //   setDisabled(true);
-  // });
   const handleStarClick = (nextValue, prevValue, name) => {
     setRating(nextValue);
   };
@@ -51,15 +42,9 @@ function ReviewFormModal({ spotId, spotName }) {
         } else {
           setErrors({ ...data.message });
         }
-
         //******error is inside message key
       });
   };
-
-  // const fillDemo = () => {
-  //   setCredential("demo@user.io");
-  //   setPassword("password");
-  // };
 
   return (
     <div className="review-form-header">
@@ -85,9 +70,11 @@ function ReviewFormModal({ spotId, spotName }) {
           value={review}
           onChange={(e) => {
             setReview(e.target.value);
-            if (e.target.value.length >= 10) setDisabled(false);
+            e.target.value.length >= 10
+              ? setDisabled(false)
+              : setDisabled(true);
           }}
-          required
+          //required
         />
         <div>
           <StarsRating
@@ -98,26 +85,18 @@ function ReviewFormModal({ spotId, spotName }) {
             }}
           />
         </div>
-        {/* <label>
-          star
-          <input
-            type="number"
-            value={stars}
-            onChange={(e) => setStars(e.target.value)}
-            required
-          />
-        </label> */}
         <button
-          className="review-form-submit-button"
+          className={
+            !disabled
+              ? "review-form-submit-button"
+              : "review-form-submit-button disabled-button"
+          }
           disabled={disabled}
           type="submit"
         >
           Submit Your Review
         </button>
       </form>
-      {/* <div className="login-demo-user" onClick={() => fillDemo()}>
-        Demo User
-      </div> */}
     </div>
   );
 }

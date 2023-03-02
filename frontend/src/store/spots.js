@@ -31,10 +31,10 @@ export const editASpot = (spot) => {
   };
 };
 
-export const updateASpot = (data) => async (dispatch) => {
+export const updateASpot = (data, spotId) => async (dispatch) => {
   console.log("reducer updateASpot data:", data);
   let spot;
-  const response1 = await csrfFetch(`/api/spots/${spot.id}`, {
+  const response1 = await csrfFetch(`/api/spots/${spotId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -150,7 +150,7 @@ export const fetchSingleSpot = (spotId) => async (dispatch) => {
 const initialState = { allSpots: {}, singleSpot: {} };
 
 const spotsReducer = (state = initialState, action) => {
-  //console.log("before spotsReducer action.spot: ", action.spot);
+  console.log("before spotsReducer action: ", action);
   let newState = {};
   switch (action.type) {
     case DELETE_SPOT:
@@ -197,7 +197,7 @@ const spotsReducer = (state = initialState, action) => {
       newState = {
         ...state,
         allCurrent: { ...state.allCurrent },
-        allSpots: { ...state.allSpots },
+        allSpots: {},
         singleSpot: { ...state.singleSpot },
       };
       action.spots.Spots.forEach((spot) => {
@@ -222,8 +222,9 @@ const spotsReducer = (state = initialState, action) => {
         ...state,
         allCurrent: { ...state.allCurrent },
         allSpots: { ...state.allSpots },
-        singleSpot: { ...action.spot },
+        singleSpot: {},
       };
+      newState.singleSpot = action.spot;
       console.log("inside spotsReducer newState: ", newState);
       return newState;
     default:

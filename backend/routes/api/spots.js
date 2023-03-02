@@ -399,8 +399,9 @@ router.get("/:spotId", async (req, res, next) => {
       //console.log(Review);
     });
     console.log({ count, sum });
+    if (count === 0) theSpot.avgStarRating = "New";
+    else theSpot.avgStarRating = (sum / count).toFixed(2);
     theSpot.numReviews = count;
-    theSpot.avgStarRating = sum / count;
     delete theSpot.Reviews;
 
     res.status(200);

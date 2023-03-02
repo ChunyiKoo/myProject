@@ -43,7 +43,7 @@ const UpdateSpotForm = () => {
 
   useEffect(() => {
     dispatch(fetchSingleSpot(spotId));
-  }, [dispatch, spotId]);
+  }, []);
 
   const initialData = () => {
     setCountry(spots.singleSpot.country);
@@ -60,7 +60,8 @@ const UpdateSpotForm = () => {
   useEffect(() => {
     initialData();
     console.log("UpdateSpotForm spots: ", spots);
-  }, [spots.singleSpot, initialData]);
+    //}, [spots.singleSpot, initialData]);
+  }, []);
 
   // useEffect(() => {
   //   if (spots.singleSpot.id === spotId) {
@@ -85,7 +86,7 @@ const UpdateSpotForm = () => {
       price,
     };
 
-    dispatch(updateASpot(newSpot))
+    dispatch(updateASpot(newSpot, spotId))
       //.then(closeModal)
       .then((spot) => {
         console.log("NewSpot Form spot: ", spot);
@@ -93,6 +94,7 @@ const UpdateSpotForm = () => {
         closeModal();
       })
       .catch(async (res) => {
+        console.log("NewSpot Form data: ", data);
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
       });

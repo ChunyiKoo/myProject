@@ -45,21 +45,21 @@ module.exports = {
         },
 
         {
-          userId: 1,
+          userId: 4,
           spotId: 3,
           review:
             "We enjoyed a restful few days at Shelly place! The house is cozy, SPOTLESS, and has a killer view. ",
           stars: 4,
         },
         {
-          userId: 2,
+          userId: 5,
           spotId: 1,
           review:
             "For anyone who is looking for a perfect getaway this is the PERFECT HOME.  ",
           stars: 2,
         },
         {
-          userId: 3,
+          userId: 6,
           spotId: 2,
           review:
             "This place is AMAZING. If you are second guessing or wavering to book, stop right now and BOOK!",

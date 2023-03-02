@@ -12,34 +12,38 @@ import DeleteReviewModal from "./DeleteReviewModal";
 function SpotDetail() {
   const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
-
   const params = useParams();
   const { spotId } = params;
-  let spots = useSelector((state) => state.spots);
-  //const spot = spots.singleSpot[spotId];
-  //const [spotId, setSpotId] = useState("");
 
-  //console.log("SpotDetail spotId,spots: ", spotId, spots);
+  //fetchAllReviews
 
   useEffect(() => {
     dispatch(fetchAllReviews(spotId));
   }, [dispatch, spotId]);
 
   const reviews = useSelector((state) => state.reviews);
+  console.log("SpotDetail fetchAllReviews reviews:", reviews);
+
+  //fetchSingleSpot
+  let spots = useSelector((state) => state.spots);
+  console.log("SpotDetail fetchSingleSpot spots:", spots);
 
   useEffect(() => {
     dispatch(fetchSingleSpot(spotId));
   }, [dispatch, spotId, reviews]);
 
+  //restore session user
   useEffect(() => {
     // restore session user thunk action, if success
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
   const sessionUser = useSelector((state) => state.session.user);
+  console.log("SpotDetail restoreUser sessionUser:", sessionUser);
 
+  //retrieve spotReviews
   const spotReviews = Object.values(reviews.spot);
-  //console.log(" inside spotdetail spotReviews: ", spotReviews);
-  //console.log(" inside spotdetail sessionUser: ", sessionUser);
+
+  //
   let isReviewedBySessionUser;
   if (sessionUser) {
     isReviewedBySessionUser = spotReviews.find(
@@ -61,19 +65,52 @@ function SpotDetail() {
         }
       />
     );
-    // postReviewButton = <button>Post Your Review</button>;
   }
+  //
+  const months = {
+    "01": "Jan",
+    "02": "Feb",
+    "03": "Mar",
+    "04": "Apr",
+    "05": "May",
+    "06": "Jun",
+    "07": "Jul",
+    "08": "Aug",
+    "09": "Sep",
+    10: "Oct",
+    11: "Nov",
+    12: "Dec",
+  };
 
+  //
   if (!spots.singleSpot || !spots.singleSpot.SpotImages) {
-    return null;
+    return <h1>Unable to retrieve details. Please try again shortly.</h1>;
   }
 
   let reviewStr;
   if (spots.singleSpot) {
     if (spots.singleSpot.numReviews >= 2) {
-      reviewStr = `${spots.singleSpot?.numReviews} reviews`;
+      reviewStr = (
+        <>
+          <div>.</div>
+          <div>{spots.singleSpot?.numReviews} reviews</div>
+        </>
+      );
+    } else if (spots.singleSpot.numReviews === 0) {
+      if (
+        sessionUser &&
+        sessionUser.id !== spots.singleSpot.ownerId &&
+        isReviewedBySessionUser === undefined
+      )
+        reviewStr = "Be the first to post a review!";
+      else reviewStr = null;
     } else {
-      reviewStr = `${spots.singleSpot?.numReviews} review`;
+      reviewStr = (
+        <>
+          <div>.</div>
+          <div>{spots.singleSpot?.numReviews} review</div>
+        </>
+      );
     }
   }
   if (spots !== {} && spots !== null && spots !== undefined)
@@ -108,7 +145,10 @@ function SpotDetail() {
               </div>
             </div>
             <div className="spot-detail-price-star-container">
-              <div></div>
+              <div>
+                <h2>{`Hosted by ${spots.singleSpot?.Owner.firstName}, ${spots.singleSpot?.Owner.lastName}`}</h2>
+                <p>{` ${spots.singleSpot?.description}`}</p>
+              </div>
               <div className="spot-detail-price-star-reserve-box">
                 <div className="spot-detail-price-star-box">
                   <div>{`$${spots.singleSpot?.price} night`}</div>
@@ -126,13 +166,13 @@ function SpotDetail() {
                   <i className="fa-sharp fa-solid fa-star fa-sm"></i>
                   {`${spots.singleSpot?.avgStarRating}`}
                 </div>
-                <div>{reviewStr}</div>
+                {reviewStr}
+                <div>{postReviewButton}</div>
               </div>
-              {postReviewButton}
             </div>
             <div className="spot-detail-review-container">
-              {spotReviews.map((el, idx) => (
-                <div key={idx}>
+              {spotReviews.reverse().map((el, idx) => (
+                <div className="spot-detail-review-detail-box" key={idx}>
                   <div className="spot-detail-review-detail">
                     {el.User.firstName}
                   </div>
@@ -143,7 +183,9 @@ function SpotDetail() {
                     />
                   )}
                   <div className="spot-detail-review-detail">
-                    {el.createdAt.slice(0, 10)}
+                    {months[el.createdAt.slice(5, 7)] +
+                      ", " +
+                      el.createdAt.slice(0, 4)}
                   </div>
                   <div className="spot-detail-review-detail">{el.review}</div>
                 </div>
@@ -153,7 +195,7 @@ function SpotDetail() {
         </div>
       </>
     );
-  else return null;
+  else return <h1>Unable to retrieve details. Please try again shortly.</h1>;
 }
 
 export default SpotDetail;

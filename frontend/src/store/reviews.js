@@ -10,9 +10,9 @@ export const removeASpotReview = (reviewId) => {
 };
 
 export const deleteASpotReview = (reviewId) => async (dispatch) => {
-  console.log("reducer deleteASpot data:");
+  console.log("reducer deleteASpot reviewId:", reviewId);
 
-  const response = await csrfFetch(`/api/spots/${reviewId}`, {
+  const response = await csrfFetch(`/api/reviews/${reviewId}`, {
     method: "DELETE",
   });
   if (response.ok) {
@@ -62,7 +62,12 @@ export const createAReview = (data, spotId) => async (dispatch) => {
   if (response.ok) {
     review = await response.json();
     console.log(" reviewReducer before addAReview: review ", review);
-    dispatch(addAReview(review));
+    //dispatch(addAReview(review));
+
+    const response2 = await csrfFetch(`/api/spots/${spotId}/reviews`);
+    const reviews = await response2.json();
+    dispatch(loadAllReviews(reviews));
+
     return review;
   } else {
     return response;
@@ -75,7 +80,7 @@ export const createAReview = (data, spotId) => async (dispatch) => {
 const initialState = { spot: {}, user: {} };
 
 const reviewReducer = (state = initialState, action) => {
-  //console.log("first line reviewReducer action.reviewId: ", action.reviewId);
+  console.log("first line reviewReducer action: ", action);
   let newState = {};
   switch (action.type) {
     case DELETE_SPOT_REVIEW:
@@ -98,14 +103,14 @@ const reviewReducer = (state = initialState, action) => {
         newState.spot[review.id] = review;
       });
       return newState;
-    case ADD_SPOT_REVIEW:
-      newState = {
-        ...state,
-        spot: { ...state.spot },
-        user: { ...state.user },
-      };
-      newState.spot[action.review.id] = action.review;
-      return newState;
+    // case ADD_SPOT_REVIEW:
+    //   newState = {
+    //     ...state,
+    //     spot: { ...state.spot },
+    //     user: { ...state.user },
+    //   };
+    //   newState.spot[action.review.id] = action.review;
+    //   return newState;
 
     // case LOAD_A_SPOT:
     //   console.log("inside spotsReducer action.spot: ", action.spot);
