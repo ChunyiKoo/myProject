@@ -30,8 +30,9 @@ module.exports = {
           country: "United States of America",
           lat: 41.3582575,
           lng: -88.7665427,
-          name: "App Academy 1",
-          description: "Place 1 where web developers are created",
+          name: "Farm Cottage",
+          description:
+            "Located on a five-acre coastal farm in the quaint, picturesque ocean-side city of Carpinteria, The Avo-Cottage awaits your getaway.",
           price: 213,
         },
         {
@@ -42,8 +43,9 @@ module.exports = {
           country: "United States of America",
           lat: 42.7645358,
           lng: -71.4730327,
-          name: "App Academy 2",
-          description: "Place 2 where web developers are created",
+          name: "Beach House",
+          description:
+            " All the comforts of home but with spectacular views off the direct oceanfront private balcony.  ",
           price: 73,
         },
         {
@@ -54,8 +56,9 @@ module.exports = {
           country: "United States of America",
           lat: 33.7195358,
           lng: -84.0072019,
-          name: "App Academy 3",
-          description: "Place 3 where web developers are created",
+          name: "Lake View Glen",
+          description:
+            "Located on Big Blue's East shore. This one-of-a-kind home is perfect for your family vacation! ",
           price: 59,
         },
         {
@@ -66,8 +69,9 @@ module.exports = {
           country: "United States of America",
           lat: 28.3582575,
           lng: -82.7665427,
-          name: "App Academy 4",
-          description: "Place 4 where web developers are created",
+          name: "Ybor's Falls",
+          description:
+            "Stunning south-west views of the lake.  Kayak, fish, boat, snowshoe or just put your feet up by the fire. ",
           price: 113,
         },
         {
@@ -78,8 +82,9 @@ module.exports = {
           country: "United States of America",
           lat: 30.7645358,
           lng: -91.4730327,
-          name: "App Academy 5",
-          description: "Place 5 where web developers are created",
+          name: "Mountain House",
+          description:
+            "Unmatched panoramic views of Great Smoky Mountain national park, including Mt LeConte at 6,593ft, from your back deck!",
           price: 55,
         },
         {
@@ -90,8 +95,9 @@ module.exports = {
           country: "United States of America",
           lat: 39.7195358,
           lng: -98.0072019,
-          name: "App Academy 6",
-          description: "Place 6 where web developers are created",
+          name: "Historic House",
+          description:
+            "the Edna Railhouse is a Modern Farmhouse originally constructed as lodging for the manager of the local Edna Railroad Stop. ",
           price: 96,
         },
         {
@@ -102,8 +108,9 @@ module.exports = {
           country: "United States of America",
           lat: 47.3582575,
           lng: -119.7665427,
-          name: "App Academy 7",
-          description: "Place 7 where web developers are created",
+          name: "Romantic Getaway",
+          description:
+            "We are located five minutes from the entrance to the Sequoia National Park and within walking distance of local restaurants",
           price: 123,
         },
         {
@@ -114,8 +121,9 @@ module.exports = {
           country: "United States of America",
           lat: 37.7645358,
           lng: -122.4730327,
-          name: "App Academy 8",
-          description: "Place 8 where web developers are created",
+          name: "Endless Summer",
+          description:
+            "This resort includes access to a lakefront boardwalk. It is also within walking distance to the beach with private access.",
           price: 273,
         },
         {
@@ -126,8 +134,9 @@ module.exports = {
           country: "United States of America",
           lat: 40.7195358,
           lng: -74.0072019,
-          name: "App Academy 9",
-          description: "Place 9 where web developers are created",
+          name: "Lake Cabin",
+          description:
+            "Enjoy a stay at Stellar Jay Landing with spectacular lake views while grilling up grub on the back deck. ",
           price: 389,
         },
         {
@@ -138,8 +147,9 @@ module.exports = {
           country: "United States of America",
           lat: 31.3582575,
           lng: -119.7665427,
-          name: "App Academy 10",
-          description: "Place 10 where web developers are created",
+          name: "Home in San Diego",
+          description:
+            "Luxury meets northwoods rustic charm on this private estate situated on 520 acres just West of Pequot Lakes.",
           price: 93,
         },
         {
@@ -150,8 +160,9 @@ module.exports = {
           country: "United States of America",
           lat: 75.7645358,
           lng: -155.4730327,
-          name: "App Academy 11",
-          description: "Place 11 where web developers are created",
+          name: "Riverfront House",
+          description:
+            "There is a beautiful new gunite pool, large patio, elevated screened in porch, and spacious deck for barbecuing and dining. ",
           price: 55,
         },
         {
@@ -162,8 +173,9 @@ module.exports = {
           country: "United States of America",
           lat: 76.7195358,
           lng: -156.0072019,
-          name: "App Academy 12",
-          description: "Place 12 where web developers are created",
+          name: "Home in Oroville",
+          description:
+            "Hiking and stargazing are truly world-class in this desirable Pipes Canyon locale.",
           price: 76,
         },
       ],

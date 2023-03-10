@@ -28,6 +28,8 @@
     "morgan": "^1.10.0",
     "per-env": "^1.0.2",
     "pg": "^8.8.0",
+    "react-select": "^5.7.0",
+    "react-select-country-list": "^2.2.3",
     "sequelize": "^6.27.0",
     "sequelize-cli": "^6.5.2"
   },

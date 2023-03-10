@@ -45,6 +45,7 @@ textarea {
 }
 
 .error-message {
+  font-size: 14pt;
   color: #FF5A5F;
 }
 
