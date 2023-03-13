@@ -26,6 +26,8 @@ function DeleteReviewModal({ reviewId }) {
     <div className="delete-review-form-container">
       <div>
         <h1>Confirm Delete</h1>
+      </div>
+      <div>
         <p>Are you sure you want to remove this review?</p>
       </div>
 
@@ -38,14 +40,14 @@ function DeleteReviewModal({ reviewId }) {
       </div>
 
       <button className="delete-review-button" onClick={() => handleDelete()}>
-        Yes(Delete Review)
+        Yes (Delete Review)
       </button>
 
       <button
         className="cancel-delete-review-button"
         onClick={() => closeModal()}
       >
-        No(Keep Review)
+        No (Keep Review)
       </button>
     </div>
   );

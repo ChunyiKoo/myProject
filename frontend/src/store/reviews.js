@@ -9,7 +9,7 @@ export const loadAllCurrentReviews = (reviews) => {
   };
 };
 
-//current user reviews
+//thunk current user reviews
 export const fetchAllCurrentReviews = () => async (dispatch) => {
   console.log("thunk action creator fetchAllCurrentReviews");
   const response = await csrfFetch(`/api/reviews/current`);
@@ -28,6 +28,7 @@ export const removeASpotReview = (reviewId) => {
   };
 };
 
+//thunk deleteASpotReview
 export const deleteASpotReview = (reviewId) => async (dispatch) => {
   console.log("reducer deleteASpot reviewId:", reviewId);
 
@@ -49,11 +50,15 @@ export const loadAllReviews = (reviews) => {
   };
 };
 
-//not correct
+//thunk fetchAllReviews
 export const fetchAllReviews = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
-  const reviews = await response.json();
-  dispatch(loadAllReviews(reviews));
+  if (response.ok) {
+    const reviews = await response.json();
+    dispatch(loadAllReviews(reviews));
+    return reviews;
+  }
+  return response;
 };
 
 const ADD_SPOT_REVIEW = "add_a_spot_review";
@@ -104,6 +109,7 @@ const reviewReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_ALL_CURRENT_REVIEWS:
       //empty other spot's review
+      console.log("reviewReducer action: ", action);
       newState = {
         ...state,
         spot: { ...state.spot },

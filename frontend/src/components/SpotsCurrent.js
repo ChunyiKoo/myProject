@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCurrentSpots } from "../store/spots";
 import OpenModalButton from "./AppHeader/SignupLoginMenuButton/OpenModalButton";
 import DeleteSpotModal from "./DeleteSpotModal";
+import SpotTile from "./SpotTile";
 
 function SpotsCurrent() {
   const dispatch = useDispatch();
@@ -36,32 +37,22 @@ function SpotsCurrent() {
       <div className="Landing-page">
         {spots.map((spot) => (
           <div className="Spots-info-container" key={`${spot.id}`}>
-            <NavLink exact to={`/spots/${spot.id}`}>
-              <div className="Spots-photo-container">
-                <img className="Spots-photo" src={`${spot.previewImage}`} />
+            <SpotTile spot={spot} />
+            <div className="spot-buttons-box">
+              <div>
+                <NavLink exact to={`/spots/${spot.id}/edit`}>
+                  <button className="spot-button-left spot-buttons">
+                    Update
+                  </button>
+                </NavLink>
               </div>
-            </NavLink>
-            <div className="Spots-info-text-container">
-              <div className="small-text">{`${spot.city}, ${spot.state}`}</div>
-              <div className="small-text">
-                <i className="fa-sharp fa-solid fa-star fa-sm"></i>
-                {`${spot.avgRating}`}
+              <div>
+                <OpenModalButton
+                  className="spot-button-right spot-buttons"
+                  buttonText="Delete"
+                  modalComponent={<DeleteSpotModal spotId={spot.id} />}
+                />
               </div>
-            </div>
-            <div className="Spots-current-price small-text">
-              {`$${spot.price}`}
-              <NavLink
-                style={{ textDecoration: "none", color: "blue" }}
-                exact
-                to={`/spots/${spot.id}/edit`}
-                //activeClassName="AppHeader-create-a-spot-link"
-              >
-                <button>Update</button>
-              </NavLink>
-              <OpenModalButton
-                buttonText="Delete"
-                modalComponent={<DeleteSpotModal spotId={spot.id} />}
-              />
             </div>
           </div>
         ))}

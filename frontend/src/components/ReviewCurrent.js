@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCurrentReviews } from "../store/reviews";
-import * as sessionActions from "../store/session";
 import OpenModalButton from "../components/AppHeader/SignupLoginMenuButton/OpenModalButton";
 import DeleteReviewModal from "./DeleteReviewModal";
 
 function ReviewCurrent() {
-  const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
 
   //fetchAllCurrentReviews
@@ -18,25 +16,8 @@ function ReviewCurrent() {
   const reviews = useSelector((state) => state.reviews);
   console.log("ReviewCurrent fetchAllCurrentReviews reviews:", reviews);
 
-  // //restore session user
-  // useEffect(() => {
-  //   // restore session user thunk action, if success
-  //   dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-  // }, [dispatch]);
-  // const sessionUser = useSelector((state) => state.session.user);
-  // console.log("ReviewCurrent restoreUser sessionUser:", sessionUser);
-
-  //retrieve spotReviews
   const userReviews = Object.values(reviews.user);
 
-  //
-  // let isReviewedBySessionUser;
-  // if (sessionUser) {
-  //   isReviewedBySessionUser = spotReviews.find(
-  //     (review) => review.userId === sessionUser.id
-  //   );
-  // }
-  //
   const months = {
     "01": "Jan",
     "02": "Feb",
@@ -83,12 +64,11 @@ function ReviewCurrent() {
                       el.createdAt.slice(0, 4)}
                   </div>
                   <div className="spot-detail-review-detail">{el.review}</div>
-                  {/* {sessionUser?.id === el.userId && ( */}
+
                   <OpenModalButton
                     buttonText="Delete"
                     modalComponent={<DeleteReviewModal reviewId={el.id} />}
                   />
-                  {/* )} */}
                 </div>
               ))}
             </div>

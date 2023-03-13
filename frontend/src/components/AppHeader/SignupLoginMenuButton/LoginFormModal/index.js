@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import * as sessionActions from "../../../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../../../context/Modal";
-//import "./LoginForm.css";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
@@ -11,6 +10,7 @@ function LoginFormModal() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const { closeModal, setOnModalClose } = useModal();
+  const [disabled, setDisabled] = useState(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,10 +46,13 @@ function LoginFormModal() {
   };
 
   useEffect(() => {
+    setDisabled(true);
     let errs = [];
-    if (credential.length < 4)
-      errs.push("Username must be 4 or more characters");
-    if (password.length < 6) errs.push("Password must be 6 or more characters");
+    if (credential.length < 4 || credential.length > 25)
+      errs.push("Username needs to be between 4 and 25 characters");
+    if (password.length < 6 || password.length > 25)
+      errs.push("Password needs to be between 6 and 25 characters");
+    if (errs.length === 0) setDisabled(false);
     setErrors(errs);
   }, [credential, password]);
 
@@ -65,9 +68,11 @@ function LoginFormModal() {
       </div>
       <form className="login-form" onSubmit={handleSubmit}>
         <div>
-          <ul className="error-message">
+          <ul>
             {errors.map((error, idx) => (
-              <li key={idx}>{error}</li>
+              <li className="error-message" key={idx}>
+                {error}
+              </li>
             ))}
           </ul>
         </div>
@@ -93,8 +98,12 @@ function LoginFormModal() {
         </label>
 
         <button
-          disabled={credential.length < 4 || password.length < 6}
-          className="login-form-submit-button"
+          disabled={disabled}
+          className={
+            !disabled
+              ? "login-form-submit-button"
+              : "login-form-submit-button disabled-button"
+          }
           type="submit"
         >
           Log In

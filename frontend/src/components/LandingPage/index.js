@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllSpots } from "../../store/spots";
+import SpotTile from "../SpotTile";
 
 function LandingPage() {
   const dispatch = useDispatch();
@@ -24,19 +25,7 @@ function LandingPage() {
       <div className="Landing-page">
         {spots.map((spot) => (
           <div className="Spots-info-container" key={`${spot.id}`}>
-            <NavLink exact to={`/spots/${spot.id}`}>
-              <div className="Spots-photo-container">
-                <img className="Spots-photo" src={`${spot.previewImage}`} />
-              </div>
-            </NavLink>
-            <div className="Spots-info-text-container">
-              <div className="small-text">{`${spot.name}`}</div>
-              <div className="small-text">
-                <i className="fa-sharp fa-solid fa-star fa-sm"></i>
-                {`${spot.avgRating}`}
-              </div>
-            </div>
-            <div className="Spots-price small-text">{`$${spot.price} night`}</div>
+            <SpotTile spot={spot} />
           </div>
         ))}
       </div>

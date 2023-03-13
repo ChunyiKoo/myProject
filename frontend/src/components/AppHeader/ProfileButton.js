@@ -55,7 +55,11 @@ function ProfileButton({ user }) {
           <div className="dropdown-content">{user.email}</div>
           <div className="dropdown-content manage-spot-link">
             <NavLink
-              style={{ textDecoration: "none", fontSize: "14pt" }}
+              style={{
+                textDecoration: "none",
+                fontSize: "14pt",
+                color: "black",
+              }}
               exact
               to="/spots/current"
             >
@@ -64,7 +68,11 @@ function ProfileButton({ user }) {
           </div>
           <div className="dropdown-content manage-spot-link">
             <NavLink
-              style={{ textDecoration: "none", fontSize: "14pt" }}
+              style={{
+                textDecoration: "none",
+                fontSize: "14pt",
+                color: "black",
+              }}
               exact
               to="/reviews/current"
             >

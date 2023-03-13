@@ -15,7 +15,7 @@ function SpotDetail() {
   const params = useParams();
   const { spotId } = params;
 
-  //fetchAllReviews
+  //fetchAllReviews for a single spot
 
   useEffect(() => {
     dispatch(fetchAllReviews(spotId));
@@ -88,12 +88,13 @@ function SpotDetail() {
   }
 
   let reviewStr;
+  let reviewStr2;
   if (spots.singleSpot) {
     if (spots.singleSpot.numReviews >= 2) {
       reviewStr = (
         <>
-          <div>.</div>
-          <div>{spots.singleSpot?.numReviews} reviews</div>
+          <span className="dot-separater">&#x2022;</span>
+          {`${spots.singleSpot?.numReviews} reviews`}
         </>
       );
     } else if (spots.singleSpot.numReviews === 0) {
@@ -102,13 +103,18 @@ function SpotDetail() {
         sessionUser.id !== spots.singleSpot.ownerId &&
         isReviewedBySessionUser === undefined
       )
-        reviewStr = "Be the first to post a review!";
+        reviewStr2 = (
+          <>
+            <span className="first-to-review">&#160;&#160;&#160;&#160;</span>Be
+            the first to post a review!
+          </>
+        );
       else reviewStr = null;
     } else {
       reviewStr = (
         <>
-          <div>.</div>
-          <div>{spots.singleSpot?.numReviews} review</div>
+          <span className="dot-separater">&#x2022;</span>
+          {`${spots.singleSpot?.numReviews} review`}
         </>
       );
     }
@@ -155,9 +161,12 @@ function SpotDetail() {
                   <div>
                     <i className="fa-sharp fa-solid fa-star fa-sm"></i>
                     {`${spots.singleSpot?.avgStarRating}`}
+                    {reviewStr}
                   </div>
                 </div>
-                <button>Reserve</button>
+                <button onClick={() => alert("Feature coming soon.")}>
+                  Reserve
+                </button>
               </div>
             </div>
             <div className="spot-detail-star-review-button-box">
@@ -165,8 +174,9 @@ function SpotDetail() {
                 <div>
                   <i className="fa-sharp fa-solid fa-star fa-sm"></i>
                   {`${spots.singleSpot?.avgStarRating}`}
+                  {reviewStr}
+                  {reviewStr2}
                 </div>
-                {reviewStr}
                 <div>{postReviewButton}</div>
               </div>
             </div>

@@ -11,7 +11,12 @@ function AppHeader({ isLoaded }) {
     sessionLinks = (
       <div className="spotform-usermenu-container">
         <NavLink
-          style={{ textDecoration: "none", color: "blue" }}
+          style={{
+            textDecoration: "none",
+            color: "rgb(3, 101, 182)",
+            // color: "#00525E",
+            fontWeight: "bold",
+          }}
           exact
           to="/spots/new"
           //activeClassName="AppHeader-create-a-spot-link"

@@ -39,15 +39,16 @@ export const updateASpot = (data, spotId) => async (dispatch) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
-
+  console.log("reducer updateASpot response1.ok:", response1.ok);
   if (response1.ok) {
     spot = await response1.json();
     // dispatch(addASpot(spot));
-    dispatch(editASpot(spot));
 
     console.log("reducer updateASpot spot:", spot);
+    dispatch(editASpot(spot));
     return spot;
   } else {
+    console.log("reducer updateASpot spot: response1.ok", response1.ok);
     return response1;
   }
 };
@@ -169,15 +170,21 @@ const spotsReducer = (state = initialState, action) => {
       return newState;
 
     case EDIT_SPOT:
-      //console.log("inside spotsReducer action.spot: ", action.spot);
+      console.log("inside spotsReducer action.spot: ", action.spot);
       newState = {
         ...state,
         allCurrent: { ...state.allCurrent },
         allSpots: { ...state.allSpots },
         singleSpot: { ...state.singleSpot },
       };
-      newState.allSpots[action.spot.id] = action.spot;
-      newState.allCurrent[action.spot.id] = action.spot;
+      newState.allSpots[action.spot.id] = {
+        ...state.allSpots[action.spot.id],
+        ...action.spot,
+      };
+      newState.allCurrent[action.spot.id] = {
+        ...state.allCurrent[action.spot.id],
+        ...action.spot,
+      };
       return newState;
     case LOAD_ALL_CURRENT_SPOTS:
       console.log("LOAD_ALL_CURRENT_SPOTS");

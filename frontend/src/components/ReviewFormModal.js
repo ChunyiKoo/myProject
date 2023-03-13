@@ -3,22 +3,16 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../context/Modal";
 import { createAReview } from "../store/reviews";
-import StarsRating from "react-star-rate";
+import StarRating from "./StarRating";
 
 function ReviewFormModal({ spotId, spotName }) {
   const dispatch = useDispatch();
 
-  const [rating, setRating] = useState(0);
-  //const [hover, setHover] = useState(null);
   const [review, setReview] = useState("");
   const [stars, setStars] = useState(0);
   const [errors, setErrors] = useState([]);
   const [disabled, setDisabled] = useState(true);
   const { closeModal } = useModal();
-
-  const handleStarClick = (nextValue, prevValue, name) => {
-    setRating(nextValue);
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,7 +23,7 @@ function ReviewFormModal({ spotId, spotName }) {
       spotId
     );
 
-    dispatch(createAReview({ review, stars }, spotId))
+    return dispatch(createAReview({ review, stars }, spotId))
       .then((review) => {
         console.log(" ReviewFormModal right after dispatch: review ", review);
         closeModal();
@@ -46,25 +40,40 @@ function ReviewFormModal({ spotId, spotName }) {
       });
   };
 
+  useEffect(() => {
+    setDisabled(true);
+    let errs = [];
+    if (review.length < 10 || review.length > 250)
+      errs.push("Review needs to be between 10 and 250 characters");
+    if (stars < 1) errs.push("Stars is required");
+    if (errs.length === 0) setDisabled(false);
+    setErrors(errs);
+  }, [stars, review]);
+
   return (
     <div className="review-form-header">
       <div>
-        <h1>How was your stay at {`${spotName}`}?</h1>
+        <h2>How was your stay at {`${spotName}`}?</h2>
       </div>
       <form className="review-form" onSubmit={handleSubmit}>
         <div>
-          {/* <ul className="error-message">
+          <ul>
             {errors?.map((error, idx) => (
-              <li key={idx}>{error.message}</li>
+              <li className="error-message" key={idx}>
+                {error}
+              </li>
             ))}
-          </ul> */}
+          </ul>
           {/*<p className="error-message">{errors[0]}</p>}
           {/* {<p className="error-message">{errors?.review}</p>}
           {<p className="error-message">{errors?.stars}</p>} */}
         </div>
-        {<p className="error-message">{errors?.review}</p>}
-        {<p className="error-message">{errors?.message}</p>}
-        {<p className="error-message">{errors?.stars}</p>}
+        <div>
+          {<p className="error-message">{errors?.review}</p>}
+          {<p className="error-message">{errors?.message}</p>}
+          {<p className="error-message">{errors?.stars}</p>}
+        </div>
+
         <textarea
           type="textarea"
           value={review}
@@ -77,13 +86,7 @@ function ReviewFormModal({ spotId, spotName }) {
           //required
         />
         <div>
-          <StarsRating
-            value={stars}
-            onChange={(value) => {
-              value.toFixed();
-              setStars(value);
-            }}
-          />
+          <StarRating value={stars} onChange={(value) => setStars(value)} />
         </div>
         <button
           className={

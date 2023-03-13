@@ -27,6 +27,8 @@ function DeleteSpotModal({ spotId }) {
     <div className="delete-spot-form-container">
       <div>
         <h1>Confirm Delete</h1>
+      </div>
+      <div>
         <p>Are you sure you want to remove this spot from the listings?</p>
       </div>
 
@@ -44,14 +46,14 @@ function DeleteSpotModal({ spotId }) {
           handleDelete();
         }}
       >
-        Yes(Delete Spot)
+        Yes (Delete Spot)
       </button>
 
       <button
         className="cancel-delete-spot-button"
         onClick={() => closeModal()}
       >
-        No(Keep Spot)
+        No (Keep Spot)
       </button>
     </div>
   );

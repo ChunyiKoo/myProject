@@ -1,26 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const StarRating = () => {
-  const [rating, setRating] = useState(0);
-  const [hover, setHover] = useState(0);
+const StarRating = ({ value, onChange }) => {
+  const [activeRating, setActiveRating] = useState(value);
+  useEffect(() => {
+    setActiveRating(value);
+  }, [value]);
   return (
-    <div className="star-rating">
-      {[...Array(5)].map((star, index) => {
-        index += 1;
-        return (
-          <starbutton
-            type="button"
-            key={index}
-            className={index <= (hover || rating) ? "on" : "off"}
-            onClick={() => setRating(index)}
-            onMouseEnter={() => setHover(index)}
-            onMouseLeave={() => setHover(rating)}
+    <>
+      {/* <input
+        type="number"
+        disabled={disabled}
+        value={rating}
+        onChange={onChange}
+      /> */}
+      <div className="rating-input">
+        {[1, 2, 3, 4, 5].map((numStar) => (
+          <div
+            className={activeRating >= numStar ? "filled" : "empty"}
+            // onMouseEnter={!disabled ? () => setActiveRating(numStar) : null}
+            onMouseEnter={() => setActiveRating(numStar)}
+            onMouseLeave={() => setActiveRating(value)}
+            onClick={() => onChange(activeRating)}
           >
-            <span className="star">&#9733;</span>
-          </starbutton>
-        );
-      })}
-    </div>
+            <i className="fa-sharp fa-solid fa-star fa-sm"></i>
+          </div>
+        ))}
+        <div>stars</div>
+      </div>
+    </>
   );
 };
 

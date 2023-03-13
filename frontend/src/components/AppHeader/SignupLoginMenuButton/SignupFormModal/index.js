@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../../../context/Modal";
 import * as sessionActions from "../../../../store/session";
-//import "./SignupForm.css";
 
 function SignupFormModal() {
   const dispatch = useDispatch();
@@ -19,11 +18,19 @@ function SignupFormModal() {
   useEffect(() => {
     setDisabled(true);
     let errs = [];
-    if (password.length < 6) errs.push("Password must be 6 or more characters");
-    if (username.length < 4) errs.push("Username must be 4 or more characters");
+    if (password.length < 6 || password.length > 25)
+      errs.push("Password needs to be between 6 and 25 characters");
+    if (username.length < 4 || username.length > 25)
+      errs.push("Username needs to be between 4 and 25 characters");
     if (email.length === 0) errs.push("Email is required");
+    if (email.length > 25)
+      errs.push("Email need to be no more than 25 characters");
     if (firstName.length === 0) errs.push("Firstname is required");
+    if (firstName.length > 25)
+      errs.push("Firstname need to be no more than 25 characters");
     if (lastName.length === 0) errs.push("Lastname is required");
+    if (lastName.length > 25)
+      errs.push("Lastname need to be no more than 25 characters");
     if (password !== confirmPassword)
       errs.push("Confirm password does not match the field for password.");
     if (errs.length === 0) setDisabled(false);
@@ -86,7 +93,7 @@ function SignupFormModal() {
         <label>
           Email
           <input
-            type="text"
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
