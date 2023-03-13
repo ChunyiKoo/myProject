@@ -14,8 +14,9 @@ function AppHeader({ isLoaded }) {
           style={{
             textDecoration: "none",
             color: "rgb(3, 101, 182)",
+            fontSize: "16pt",
             // color: "#00525E",
-            fontWeight: "bold",
+            //fontWeight: "bolder",
           }}
           exact
           to="/spots/new"

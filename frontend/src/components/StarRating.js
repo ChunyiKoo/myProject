@@ -16,6 +16,7 @@ const StarRating = ({ value, onChange }) => {
       <div className="rating-input">
         {[1, 2, 3, 4, 5].map((numStar) => (
           <div
+            key={numStar}
             className={activeRating >= numStar ? "filled" : "empty"}
             // onMouseEnter={!disabled ? () => setActiveRating(numStar) : null}
             onMouseEnter={() => setActiveRating(numStar)}

@@ -26,7 +26,7 @@ function SignupLoginMenuButton() {
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
-  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+  const ulClassName = "login-signup-dropdown" + (showMenu ? "" : " hidden");
 
   return (
     <>
@@ -44,12 +44,14 @@ function SignupLoginMenuButton() {
         <div className={ulClassName} ref={ulRef}>
           <div className="button-container">
             <OpenModalButton
+              className="login-button"
               buttonText="Log In"
               modalComponent={<LoginFormModal />}
             />
           </div>
           <div className="button-container">
             <OpenModalButton
+              className="signup-button"
               buttonText="Sign Up"
               modalComponent={<SignupFormModal />}
             />

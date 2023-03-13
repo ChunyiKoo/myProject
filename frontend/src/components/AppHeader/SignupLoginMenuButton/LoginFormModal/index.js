@@ -80,7 +80,7 @@ function LoginFormModal() {
         <label>
           Username or Email
           <input
-            type="text"
+            type="email"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             required
