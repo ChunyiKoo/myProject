@@ -5,30 +5,40 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../../../context/Modal";
 
 function LoginFormModal() {
+  const [run, setRun] = useState(false);
   const dispatch = useDispatch();
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const { closeModal, setOnModalClose } = useModal();
-  const [disabled, setDisabled] = useState(true);
+  const [disabled, setDisabled] = useState(false);
   const [showErr, setShowErr] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-    return dispatch(sessionActions.login({ credential, password }))
-      .then(() => {
-        setOnModalClose(() => {
-          setCredential("");
-          setPassword("");
-          setErrors([]);
+    if (!showErr) setShowErr(true);
+
+    if (run) {
+      return dispatch(
+        sessionActions.login({
+          credential: credential.trim(),
+          password: password.trim(),
+        })
+      )
+        .then(() => {
+          setOnModalClose(() => {
+            setCredential("");
+            setPassword("");
+            setErrors([]);
+          });
+          closeModal();
+        })
+        .catch(async (res) => {
+          const data = await res.json();
+          if (data && data.errors) setErrors(data.errors);
         });
-        closeModal();
-      })
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) setErrors(data.errors);
-      });
+    }
   };
 
   const fillDemo1 = () => {
@@ -47,19 +57,22 @@ function LoginFormModal() {
   };
 
   useEffect(() => {
-    setDisabled(true);
     let errs = [];
+    if (showErr) setDisabled(true);
+    if (credential?.trim().length < 4 || credential?.trim().length > 25)
+      errs.push("Username needs to be between 4 and 25 characters");
+    if (password?.trim().length < 6 || password?.trim().length > 25)
+      errs.push("Password needs to be between 6 and 25 characters");
+
     if (showErr) {
-      if (credential.length < 4 || credential.length > 25)
-        errs.push("Username needs to be between 4 and 25 characters");
-      if (password.length < 6 || password.length > 25)
-        errs.push("Password needs to be between 6 and 25 characters");
       if (errs.length === 0) setDisabled(false);
+      if (run === false) setRun(true);
       setErrors(errs);
     } else {
-      setShowErr(true);
+      if (errs.length === 0) setRun(true);
+      else setRun(false);
     }
-  }, [credential, password]);
+  }, [credential, password, showErr]);
 
   return (
     <div className="login-form-container">

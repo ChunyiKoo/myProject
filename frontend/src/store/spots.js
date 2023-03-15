@@ -185,6 +185,10 @@ const spotsReducer = (state = initialState, action) => {
         ...state.allCurrent[action.spot.id],
         ...action.spot,
       };
+      newState.singleSpot[action.spot.id] = {
+        ...state.singleSpot[action.spot.id],
+        ...action.spot,
+      };
       return newState;
     case LOAD_ALL_CURRENT_SPOTS:
       console.log("LOAD_ALL_CURRENT_SPOTS");

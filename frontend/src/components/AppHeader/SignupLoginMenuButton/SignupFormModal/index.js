@@ -4,6 +4,7 @@ import { useModal } from "../../../../context/Modal";
 import * as sessionActions from "../../../../store/session";
 
 function SignupFormModal() {
+  const [run, setRun] = useState(false);
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -13,53 +14,68 @@ function SignupFormModal() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
-  const [disabled, setDisabled] = useState(true);
+  const [disabled, setDisabled] = useState(false);
   const [showErr, setShowErr] = useState(false);
 
   useEffect(() => {
-    setDisabled(true);
     let errs = [];
+    if (showErr) setDisabled(true);
+    if (password?.trim().length < 6 || password?.trim().length > 25)
+      errs.push("Password needs to be between 6 and 25 characters");
+    if (username?.trim().length < 4 || username?.trim().length > 25)
+      errs.push("Username needs to be between 4 and 25 characters");
+    if (email?.trim().length === 0) errs.push("Email is required");
+    if (email?.trim().length > 25)
+      errs.push("Email need to be no more than 25 characters");
+    if (firstName?.trim().length === 0) errs.push("Firstname is required");
+    if (firstName?.trim().length > 25)
+      errs.push("Firstname need to be no more than 25 characters");
+    if (lastName?.trim().length === 0) errs.push("Lastname is required");
+    if (lastName?.trim().length > 25)
+      errs.push("Lastname need to be no more than 25 characters");
+    if (password !== confirmPassword)
+      errs.push("Confirm password does not match the field for password.");
+
     if (showErr) {
-      if (password.length < 6 || password.length > 25)
-        errs.push("Password needs to be between 6 and 25 characters");
-      if (username.length < 4 || username.length > 25)
-        errs.push("Username needs to be between 4 and 25 characters");
-      if (email.length === 0) errs.push("Email is required");
-      if (email.length > 25)
-        errs.push("Email need to be no more than 25 characters");
-      if (firstName.length === 0) errs.push("Firstname is required");
-      if (firstName.length > 25)
-        errs.push("Firstname need to be no more than 25 characters");
-      if (lastName.length === 0) errs.push("Lastname is required");
-      if (lastName.length > 25)
-        errs.push("Lastname need to be no more than 25 characters");
-      if (password !== confirmPassword)
-        errs.push("Confirm password does not match the field for password.");
       if (errs.length === 0) setDisabled(false);
+      if (run === false) setRun(true);
       setErrors(errs);
     } else {
-      setShowErr(true);
+      if (errs.length === 0) setRun(true);
+      else setRun(false);
     }
-  }, [password, username, email, firstName, lastName, confirmPassword]);
+  }, [
+    password,
+    username,
+    email,
+    firstName,
+    lastName,
+    confirmPassword,
+    showErr,
+  ]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     //if (password === confirmPassword) {
-    //setErrors([]);
-    return dispatch(
-      sessionActions.signup({
-        email,
-        username,
-        firstName,
-        lastName,
-        password,
-      })
-    )
-      .then(closeModal)
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) setErrors(data.errors);
-      });
+    setErrors([]);
+    if (!showErr) setShowErr(true);
+
+    if (run) {
+      return dispatch(
+        sessionActions.signup({
+          email: email.trim(),
+          username: username.trim(),
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          password: password.trim(),
+        })
+      )
+        .then(closeModal)
+        .catch(async (res) => {
+          const data = await res.json();
+          if (data && data.errors) setErrors(data.errors);
+        });
+    }
     //}
     // return setErrors([
     //   "Confirm Password field must be the same as the Password field",

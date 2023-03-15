@@ -6,49 +6,61 @@ import { createAReview } from "../store/reviews";
 import StarRating from "./StarRating";
 
 function ReviewFormModal({ spotId, spotName }) {
+  const [run, setRun] = useState(false);
   const dispatch = useDispatch();
 
   const [review, setReview] = useState("");
   const [stars, setStars] = useState(0);
   const [errors, setErrors] = useState([]);
-  const [disabled, setDisabled] = useState(true);
+  const [disabled, setDisabled] = useState(false);
+  const [showErr, setShowErr] = useState(false);
   const { closeModal } = useModal();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
+    if (!showErr) setShowErr(true);
     console.log(
       "Review form modal before dispatch createAReview { review, stars }, spotId: ",
-      { review, stars },
+      { review: review.trim().length, stars },
       spotId
     );
 
-    return dispatch(createAReview({ review, stars }, spotId))
-      .then((review) => {
-        console.log(" ReviewFormModal right after dispatch: review ", review);
-        closeModal();
-      })
-      .catch(async (res) => {
-        const data = await res.json();
-        console.log("**********data", data);
-        if (data && data.message) {
-          if (data.errors) setErrors(data.errors);
-        } else {
-          setErrors({ ...data.message });
-        }
-        //******error is inside message key
-      });
+    if (run) {
+      return dispatch(createAReview({ review, stars }, spotId))
+        .then((review) => {
+          console.log(" ReviewFormModal right after dispatch: review ", review);
+          closeModal();
+        })
+        .catch(async (res) => {
+          const data = await res.json();
+          console.log("**********data", data);
+          if (data && data.message) {
+            if (data.errors) setErrors(data.errors);
+          } else {
+            setErrors({ ...data.message });
+          }
+          //******error is inside message key
+        });
+    }
   };
 
   useEffect(() => {
-    setDisabled(true);
     let errs = [];
-    if (review.length < 10 || review.length > 250)
+    if (showErr) setDisabled(true);
+    if (review?.trim().length < 10 || review?.trim().length > 250)
       errs.push("Review needs to be between 10 and 250 characters");
     if (stars < 1) errs.push("Stars is required");
-    if (errs.length === 0) setDisabled(false);
-    setErrors(errs);
-  }, [stars, review]);
+
+    if (showErr) {
+      if (errs.length === 0) setDisabled(false);
+      if (run === false) setRun(true);
+      setErrors(errs);
+    } else {
+      if (errs.length === 0) setRun(true);
+      else setRun(false);
+    }
+  }, [stars, review, showErr]);
 
   return (
     <div className="review-form-header">

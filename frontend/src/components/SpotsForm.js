@@ -5,6 +5,7 @@ import { createASpot, updateASpot, fetchSingleSpot } from "../store/spots.js";
 import { useHistory, useParams } from "react-router-dom";
 
 const SpotsForm = ({ formType }) => {
+  const [run, setRun] = useState(false);
   const dispatch = useDispatch();
   const [country, setCountry] = useState("");
   const [address, setAddress] = useState("");
@@ -49,7 +50,7 @@ const SpotsForm = ({ formType }) => {
   useEffect(() => {
     if (spots && spots.singleSpot && formType === "UpdateSpotForm")
       initialData();
-  }, [formType]);
+  }, [formType, spots]);
 
   const fillDemo = () => {
     setCountry("USA");
@@ -84,6 +85,7 @@ const SpotsForm = ({ formType }) => {
 
     const thunkActionProducer = (formType) => {
       if (formType === "NewSpotsForm") {
+        console.log("NewSpotsForm");
         return dispatch(createASpot(newSpot, { url }))
           .then((spot) => {
             history.push(`/spots/${spot.id}`);
@@ -95,6 +97,7 @@ const SpotsForm = ({ formType }) => {
           });
       }
       if (formType === "UpdateSpotForm") {
+        console.log("UpdateSpotForm");
         return dispatch(updateASpot(newSpot, spotId))
           .then((spot) => {
             history.push(`/spots/${spot.id}`);
@@ -107,61 +110,66 @@ const SpotsForm = ({ formType }) => {
       }
     };
 
-    thunkActionProducer(formType);
+    if (run) thunkActionProducer(formType);
   };
 
   useEffect(() => {
     //let errs = [];
     //  if (password.length < 6) errs.push("Password must be 6 or more characters");
     ///
+
+    let errs = [];
+    if (showErr) setDisabled(true);
+    if (country?.trim().length === 0 || country?.trim() === "")
+      errs.push("Country is required");
+    if (country?.trim().length > 15)
+      errs.push("Country need to be no more than 15 characters");
+    if (address?.trim().length === 0 || address?.trim() === "")
+      errs.push("Street address is required");
+    if (address?.trim().length > 36)
+      errs.push("Street address need to be no more than 36 characters");
+    if (city?.trim().length === 0 || city?.trim() === "")
+      errs.push("City is required");
+    if (city?.trim().length > 15)
+      errs.push("City need to be no more than 10 characters");
+    if (state?.trim().length === 0 || state?.trim() === "")
+      errs.push("State is required");
+    if (state?.trim().length > 10)
+      errs.push("State need to be no more than 15 characters");
+    if (name?.trim().length === 0 || name?.trim() === "")
+      errs.push("Title is required");
+    if (name?.trim().length > 25)
+      errs.push("Title need to be no more than 25 characters");
+    if (!latitude || latitude === null || latitude === 0)
+      errs.push("Latitude is required");
+    if (!longitude || longitude === null || longitude === 0)
+      errs.push("Longitude is required");
+    if (!price || price === null || price === 0)
+      errs.push("Price  is required");
+    if (latitude < -90 || latitude > 90)
+      errs.push("Latitude need to be between 90 and -90");
+    if (longitude < -180 || longitude > 180)
+      errs.push("Longitude need to be between 180 and -180");
+
+    if (
+      description?.trim().length < 30 ||
+      description?.trim().length > 250 ||
+      description?.trim() === ""
+    )
+      errs.push("Description needs to be between 30 and 250 characters");
+    if (price < 0) errs.push("Price need to be no less than 0");
+
+    if (formType === "NewSpotsForm") {
+      if (url?.trim().length === 0) errs.push("Review Photo url is required");
+    }
+
     if (showErr) {
-      let errs = [];
-      setDisabled(true);
-      if (country?.length === 0 || country?.trim() === "")
-        errs.push("Country is required");
-      if (country?.length > 15)
-        errs.push("Country need to be no more than 15 characters");
-      if (address?.length === 0 || address?.trim() === "")
-        errs.push("Street address is required");
-      if (address?.length > 36)
-        errs.push("Street address need to be no more than 36 characters");
-      if (city?.length === 0 || city?.trim() === "")
-        errs.push("City is required");
-      if (city?.length > 15)
-        errs.push("City need to be no more than 10 characters");
-      if (state?.length === 0 || state?.trim() === "")
-        errs.push("State is required");
-      if (state?.length > 10)
-        errs.push("State need to be no more than 15 characters");
-      if (name?.length === 0 || name?.trim() === "")
-        errs.push("Title is required");
-      if (name?.length > 25)
-        errs.push("Title need to be no more than 25 characters");
-      if (!latitude || latitude === null || latitude === 0)
-        errs.push("Latitude is required");
-      if (!longitude || longitude === null || longitude === 0)
-        errs.push("Longitude is required");
-      if (!price || price === null || price === 0)
-        errs.push("Price  is required");
-      if (latitude < -90 || latitude > 90)
-        errs.push("Latitude need to be between 90 and -90");
-      if (longitude < -180 || longitude > 180)
-        errs.push("Longitude need to be between 180 and -180");
-
-      if (
-        description?.length < 30 ||
-        description?.length > 250 ||
-        description?.trim() === ""
-      )
-        errs.push("Description needs to be between 30 and 250 characters");
-      if (price < 0) errs.push("Price need to be no less than 0");
-
-      if (formType === "NewSpotsForm") {
-        if (url?.length === 0) errs.push("Review Photo url is required");
-      }
-
       if (errs.length === 0) setDisabled(false);
+      if (run === false) setRun(true);
       setErrors(errs);
+    } else {
+      if (errs.length === 0) setRun(true);
+      else setRun(false);
     }
   }, [
     country,
@@ -193,15 +201,15 @@ const SpotsForm = ({ formType }) => {
           </p>
         </div>
         <ul className="error-message">
-          {/* {bErrs?.name === "SequelizeValidationError" &&
+          {bErrs?.name === "SequelizeValidationError" &&
             bErrs?.errors.map((error, idx) => (
               <li key={idx}>{error.message}</li>
-            ))} */}
-          {bErrs?.map((error, idx) => (
+            ))}
+          {/* {bErrs?map((error, idx) => (
             <li className="error-message" key={idx}>
               {error}
             </li>
-          ))}
+          ))} */}
         </ul>
         <label className="small-text">
           Country
