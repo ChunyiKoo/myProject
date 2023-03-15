@@ -18,7 +18,13 @@ function LandingPage() {
 
   console.log("LandingPage spots: ", spots);
   if (!return_spots)
-    return <h1>Unable to retrieve spots. Please try again shortly.</h1>;
+    return (
+      <div className="SpotDetail-all-container">
+        <div className="lag-load">
+          <h2>Unable to retrieve details. Please try again shortly.</h2>
+        </div>
+      </div>
+    );
   return (
     <div className="Landing-page-container">
       {console.log("LandingPage render: ", spots)}

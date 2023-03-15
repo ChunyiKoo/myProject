@@ -8,6 +8,7 @@ import OpenModelButton from "./AppHeader/SignupLoginMenuButton/OpenModalButton";
 import ReviewFormModal from "./ReviewFormModal";
 import OpenModalButton from "../components/AppHeader/SignupLoginMenuButton/OpenModalButton";
 import DeleteReviewModal from "./DeleteReviewModal";
+import { clearSingleSpot } from "../store/spots";
 
 function SpotDetail() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -30,6 +31,7 @@ function SpotDetail() {
 
   useEffect(() => {
     dispatch(fetchSingleSpot(spotId));
+    return () => dispatch(clearSingleSpot());
   }, [dispatch, spotId, reviews]);
 
   //restore session user
@@ -84,7 +86,13 @@ function SpotDetail() {
 
   //
   if (!spots.singleSpot || !spots.singleSpot.SpotImages) {
-    return <h1>Unable to retrieve details. Please try again shortly.</h1>;
+    return (
+      <div className="SpotDetail-all-container">
+        <div className="lag-load">
+          <h2>Unable to retrieve details. Please try again shortly.</h2>
+        </div>
+      </div>
+    );
   }
 
   let reviewStr;
@@ -205,7 +213,14 @@ function SpotDetail() {
         </div>
       </>
     );
-  else return <h1>Unable to retrieve details. Please try again shortly.</h1>;
+  else
+    return (
+      <div className="SpotDetail-all-container">
+        <div className="lag-load">
+          <h2>Unable to retrieve details. Please try again shortly.</h2>
+        </div>
+      </div>
+    );
 }
 
 export default SpotDetail;

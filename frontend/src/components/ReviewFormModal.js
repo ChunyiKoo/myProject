@@ -89,12 +89,12 @@ function ReviewFormModal({ spotId, spotName }) {
         <textarea
           type="textarea"
           value={review}
-          placeholder="Just a quick review"
+          placeholder="Leave your review here..."
           onChange={(e) => {
             setReview(e.target.value);
-            e.target.value.length >= 10
-              ? setDisabled(false)
-              : setDisabled(true);
+            // e.target.value.length >= 10
+            //   ? setDisabled(false)
+            //   : setDisabled(true);
           }}
           //required
         />

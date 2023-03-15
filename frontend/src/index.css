@@ -28,6 +28,17 @@ h2 {
   font-size: 16px;
 }
 
+button {
+  border-radius: 0.2rem;
+  padding: 0.07rem 0.1rem;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  background-color: #777;
+  border-color: #777;
+
+}
+
 .login-button,
 .signup-button {
   background-color: transparent;
@@ -334,7 +345,8 @@ input {
 }
 
 .spot-buttons {
-  font-size: 14pt;
+  font-size: 12pt;
+  font-weight: 600;
 }
 
 .spot-button-right {
@@ -434,6 +446,7 @@ input {
 .SpotDetail-all-container {
 
   width: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -453,6 +466,14 @@ input {
   align-items: center;
   width: 80%;
   max-width: 980px;
+}
+
+.lag-load {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 100px;
 }
 
 .SpotDetail-all-photo-box {
@@ -624,6 +645,9 @@ input {
   display: flex;
 }
 
+.create-a-spot {
+  margin-top: 15px;
+}
 
 
 /*****Review Form Modal*****/

@@ -147,6 +147,14 @@ export const fetchSingleSpot = (spotId) => async (dispatch) => {
   console.log("inside fetchSingleSpot spot: ", spot);
   dispatch(loadSingleSpot(spot));
 };
+//
+const CLEAR_A_SPOT = "clear_a_spot";
+
+export const clearSingleSpot = () => {
+  return {
+    type: CLEAR_A_SPOT,
+  };
+};
 
 const initialState = { allSpots: {}, singleSpot: {} };
 
@@ -237,6 +245,17 @@ const spotsReducer = (state = initialState, action) => {
       };
       newState.singleSpot = action.spot;
       console.log("inside spotsReducer newState: ", newState);
+      return newState;
+
+    case CLEAR_A_SPOT:
+      console.log("***** spotsReducer action.spot: ");
+      newState = {
+        ...state,
+        allCurrent: { ...state.allCurrent },
+        allSpots: { ...state.allSpots },
+        singleSpot: {},
+      };
+      console.log("^^^^^inside spotsReducer newState: ", newState);
       return newState;
     default:
       return state;

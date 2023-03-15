@@ -25,12 +25,11 @@ function SpotsCurrent() {
         <div className="SpotCurrent-header-box">
           <h2>Manage Your Spots</h2>
           <NavLink
-            style={{ textDecoration: "none", color: "blue" }}
             exact
             to="/spots/new"
             //activeClassName="AppHeader-create-a-spot-link"
           >
-            <button>Create a New Spot</button>
+            <button className="create-a-spot">Create a New Spot</button>
           </NavLink>
         </div>
       </div>

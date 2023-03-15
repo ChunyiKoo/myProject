@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../context/Modal";
 import { createASpot, updateASpot, fetchSingleSpot } from "../store/spots.js";
 import { useHistory, useParams } from "react-router-dom";
+import { clearSingleSpot } from "../store/spots";
 
 const SpotsForm = ({ formType }) => {
   const [run, setRun] = useState(false);
@@ -31,7 +32,8 @@ const SpotsForm = ({ formType }) => {
   let spots = useSelector((state) => state.spots);
 
   useEffect(() => {
-    if (spotId) dispatch(fetchSingleSpot(spotId));
+    dispatch(fetchSingleSpot(spotId));
+    return () => dispatch(clearSingleSpot());
   }, [spotId, dispatch]);
 
   const initialData = () => {

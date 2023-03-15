@@ -29,7 +29,7 @@ function DeleteSpotModal({ spotId }) {
         <h1>Confirm Delete</h1>
       </div>
       <div>
-        <p>Are you sure you want to remove this spot from the listings?</p>
+        <p>Are you sure you want to remove this spot?</p>
       </div>
 
       <div>
