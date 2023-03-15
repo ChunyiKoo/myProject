@@ -11,6 +11,7 @@ function LoginFormModal() {
   const [errors, setErrors] = useState([]);
   const { closeModal, setOnModalClose } = useModal();
   const [disabled, setDisabled] = useState(true);
+  const [showErr, setShowErr] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,12 +49,16 @@ function LoginFormModal() {
   useEffect(() => {
     setDisabled(true);
     let errs = [];
-    if (credential.length < 4 || credential.length > 25)
-      errs.push("Username needs to be between 4 and 25 characters");
-    if (password.length < 6 || password.length > 25)
-      errs.push("Password needs to be between 6 and 25 characters");
-    if (errs.length === 0) setDisabled(false);
-    setErrors(errs);
+    if (showErr) {
+      if (credential.length < 4 || credential.length > 25)
+        errs.push("Username needs to be between 4 and 25 characters");
+      if (password.length < 6 || password.length > 25)
+        errs.push("Password needs to be between 6 and 25 characters");
+      if (errs.length === 0) setDisabled(false);
+      setErrors(errs);
+    } else {
+      setShowErr(true);
+    }
   }, [credential, password]);
 
   return (
@@ -110,13 +115,13 @@ function LoginFormModal() {
         </button>
       </form>
       <div className="login-demo-user" onClick={() => fillDemo1()}>
-        Demo User1
+        Log in as Demo User1
       </div>
       <div className="login-demo-user" onClick={() => fillDemo2()}>
-        Demo User2
+        Log in as Demo User2
       </div>
       <div className="login-demo-user" onClick={() => fillDemo3()}>
-        Demo User3
+        Log in as Demo User3
       </div>
     </div>
   );

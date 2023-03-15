@@ -152,7 +152,7 @@ function SpotDetail() {
             </div>
             <div className="spot-detail-price-star-container">
               <div>
-                <h2>{`Hosted by ${spots.singleSpot?.Owner.firstName}, ${spots.singleSpot?.Owner.lastName}`}</h2>
+                <h2>{`Hosted by ${spots.singleSpot?.Owner.firstName} ${spots.singleSpot?.Owner.lastName}`}</h2>
                 <p>{` ${spots.singleSpot?.description}`}</p>
               </div>
               <div className="spot-detail-price-star-reserve-box">
@@ -177,8 +177,8 @@ function SpotDetail() {
                   {reviewStr}
                   {reviewStr2}
                 </div>
-                <div>{postReviewButton}</div>
               </div>
+              <div className="post-your-review-button">{postReviewButton}</div>
             </div>
             <div className="spot-detail-review-container">
               {spotReviews.reverse().map((el, idx) => (

@@ -14,27 +14,32 @@ function SignupFormModal() {
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
   const [disabled, setDisabled] = useState(true);
+  const [showErr, setShowErr] = useState(false);
 
   useEffect(() => {
     setDisabled(true);
     let errs = [];
-    if (password.length < 6 || password.length > 25)
-      errs.push("Password needs to be between 6 and 25 characters");
-    if (username.length < 4 || username.length > 25)
-      errs.push("Username needs to be between 4 and 25 characters");
-    if (email.length === 0) errs.push("Email is required");
-    if (email.length > 25)
-      errs.push("Email need to be no more than 25 characters");
-    if (firstName.length === 0) errs.push("Firstname is required");
-    if (firstName.length > 25)
-      errs.push("Firstname need to be no more than 25 characters");
-    if (lastName.length === 0) errs.push("Lastname is required");
-    if (lastName.length > 25)
-      errs.push("Lastname need to be no more than 25 characters");
-    if (password !== confirmPassword)
-      errs.push("Confirm password does not match the field for password.");
-    if (errs.length === 0) setDisabled(false);
-    setErrors(errs);
+    if (showErr) {
+      if (password.length < 6 || password.length > 25)
+        errs.push("Password needs to be between 6 and 25 characters");
+      if (username.length < 4 || username.length > 25)
+        errs.push("Username needs to be between 4 and 25 characters");
+      if (email.length === 0) errs.push("Email is required");
+      if (email.length > 25)
+        errs.push("Email need to be no more than 25 characters");
+      if (firstName.length === 0) errs.push("Firstname is required");
+      if (firstName.length > 25)
+        errs.push("Firstname need to be no more than 25 characters");
+      if (lastName.length === 0) errs.push("Lastname is required");
+      if (lastName.length > 25)
+        errs.push("Lastname need to be no more than 25 characters");
+      if (password !== confirmPassword)
+        errs.push("Confirm password does not match the field for password.");
+      if (errs.length === 0) setDisabled(false);
+      setErrors(errs);
+    } else {
+      setShowErr(true);
+    }
   }, [password, username, email, firstName, lastName, confirmPassword]);
 
   const handleSubmit = (e) => {

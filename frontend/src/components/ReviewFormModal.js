@@ -77,6 +77,7 @@ function ReviewFormModal({ spotId, spotName }) {
         <textarea
           type="textarea"
           value={review}
+          placeholder="Just a quick review"
           onChange={(e) => {
             setReview(e.target.value);
             e.target.value.length >= 10

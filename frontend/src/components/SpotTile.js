@@ -3,11 +3,13 @@ import { NavLink } from "react-router-dom";
 function SpotTile({ spot }) {
   return (
     <>
-      <NavLink exact to={`/spots/${spot.id}`}>
-        <div className="Spots-photo-container">
-          <img className="Spots-photo" src={`${spot.previewImage}`} />
-        </div>
-      </NavLink>
+      <div className="spot-tile-image" data-tooltip={spot.name}>
+        <NavLink exact to={`/spots/${spot.id}`}>
+          <div className="Spots-photo-container">
+            <img className="Spots-photo" src={`${spot.previewImage}`} />
+          </div>
+        </NavLink>
+      </div>
       <div className="Spots-info-text-container">
         <div className="small-text">{`${spot.city}, ${spot.state}`}</div>
         <div className="small-text">

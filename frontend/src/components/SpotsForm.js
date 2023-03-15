@@ -18,7 +18,8 @@ const SpotsForm = ({ formType }) => {
   const [price, setPrice] = useState();
   const [errors, setErrors] = useState([]);
   const [bErrs, setBErrs] = useState([]);
-  const [disabled, setDisabled] = useState(true);
+  const [disabled, setDisabled] = useState(false);
+  const [showErr, setShowErr] = useState(false);
   const { closeModal } = useModal();
   const history = useHistory();
   const params = useParams();
@@ -57,7 +58,7 @@ const SpotsForm = ({ formType }) => {
     setState("TX");
     setLatitude(33);
     setLongitude(-156);
-    setDescription("A very beautigul waterfront house");
+    setDescription("A very beautiful waterfront house");
     setName("Cherry house");
     setUrl("https://live.staticflickr.com/4050/4570420809_4f44ae5dba_n.jpg");
     setPrice(233);
@@ -66,16 +67,18 @@ const SpotsForm = ({ formType }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
+    setBErrs([]);
+    if (!showErr) setShowErr(true);
 
     const newSpot = {
-      country,
-      address,
-      city,
-      state,
+      country: country.trim(),
+      address: address.trim(),
+      city: city.trim(),
+      state: state.trim(),
       lat: latitude,
       lng: longitude,
-      description,
-      name,
+      description: description.trim(),
+      name: name.trim(),
       price,
     };
 
@@ -108,46 +111,58 @@ const SpotsForm = ({ formType }) => {
   };
 
   useEffect(() => {
-    setDisabled(true);
-    let errs = [];
+    //let errs = [];
     //  if (password.length < 6) errs.push("Password must be 6 or more characters");
     ///
-    if (country?.length === 0) errs.push("Country is required");
-    if (country?.length > 15)
-      errs.push("Country need to be no more than 15 characters");
-    if (address?.length === 0) errs.push("Street address is required");
-    if (address?.length > 36)
-      errs.push("Street address need to be no more than 36 characters");
-    if (city?.length === 0) errs.push("City is required");
-    if (city?.length > 15)
-      errs.push("City need to be no more than 15 characters");
-    if (state?.length === 0) errs.push("State is required");
-    if (state?.length > 15)
-      errs.push("State need to be no more than 15 characters");
-    if (name?.length === 0) errs.push("Title is required");
-    if (name?.length > 25)
-      errs.push("Title need to be no more than 25 characters");
-    if (!latitude || latitude === null || latitude === 0)
-      errs.push("Latitude is required");
-    if (!longitude || longitude === null || longitude === 0)
-      errs.push("Longitude is required");
-    if (!price || price === null || price === 0)
-      errs.push("Price  is required");
-    if (latitude < -90 || latitude > 90)
-      errs.push("Latitude need to be between 90 and -90");
-    if (longitude < -180 || longitude > 180)
-      errs.push("Longitude need to be between 180 and -180");
+    if (showErr) {
+      let errs = [];
+      setDisabled(true);
+      if (country?.length === 0 || country?.trim() === "")
+        errs.push("Country is required");
+      if (country?.length > 15)
+        errs.push("Country need to be no more than 15 characters");
+      if (address?.length === 0 || address?.trim() === "")
+        errs.push("Street address is required");
+      if (address?.length > 36)
+        errs.push("Street address need to be no more than 36 characters");
+      if (city?.length === 0 || city?.trim() === "")
+        errs.push("City is required");
+      if (city?.length > 15)
+        errs.push("City need to be no more than 10 characters");
+      if (state?.length === 0 || state?.trim() === "")
+        errs.push("State is required");
+      if (state?.length > 10)
+        errs.push("State need to be no more than 15 characters");
+      if (name?.length === 0 || name?.trim() === "")
+        errs.push("Title is required");
+      if (name?.length > 25)
+        errs.push("Title need to be no more than 25 characters");
+      if (!latitude || latitude === null || latitude === 0)
+        errs.push("Latitude is required");
+      if (!longitude || longitude === null || longitude === 0)
+        errs.push("Longitude is required");
+      if (!price || price === null || price === 0)
+        errs.push("Price  is required");
+      if (latitude < -90 || latitude > 90)
+        errs.push("Latitude need to be between 90 and -90");
+      if (longitude < -180 || longitude > 180)
+        errs.push("Longitude need to be between 180 and -180");
 
-    if (description?.length < 30 || description?.length > 250)
-      errs.push("Description needs to be between 30 and 250 characters");
-    if (price < 0) errs.push("Price need to be less than 0");
+      if (
+        description?.length < 30 ||
+        description?.length > 250 ||
+        description?.trim() === ""
+      )
+        errs.push("Description needs to be between 30 and 250 characters");
+      if (price < 0) errs.push("Price need to be no less than 0");
 
-    if (formType === "NewSpotsForm") {
-      if (url?.length === 0) errs.push("Review Photo url is required");
+      if (formType === "NewSpotsForm") {
+        if (url?.length === 0) errs.push("Review Photo url is required");
+      }
+
+      if (errs.length === 0) setDisabled(false);
+      setErrors(errs);
     }
-
-    if (errs.length === 0) setDisabled(false);
-    setErrors(errs);
   }, [
     country,
     address,
@@ -160,6 +175,7 @@ const SpotsForm = ({ formType }) => {
     description,
     url,
     formType,
+    showErr,
   ]);
 
   return (
@@ -167,19 +183,27 @@ const SpotsForm = ({ formType }) => {
       <h2>
         {formType === "NewSpotsForm" ? "Create a new Spot" : "Update your Spot"}
       </h2>
+
       <form className="new-spot-form" onSubmit={handleSubmit}>
+        <div className="where-text">
+          <p className="medium-text">Where's your place located?</p>
+          <p className="small-text">
+            Guest will only get your exact address once they booked a
+            reservation
+          </p>
+        </div>
         <ul className="error-message">
-          {bErrs?.name === "SequelizeValidationError" &&
+          {/* {bErrs?.name === "SequelizeValidationError" &&
             bErrs?.errors.map((error, idx) => (
               <li key={idx}>{error.message}</li>
-            ))}
-          {/* {errors.map((error, idx) => (
+            ))} */}
+          {bErrs?.map((error, idx) => (
             <li className="error-message" key={idx}>
               {error}
             </li>
-          ))} */}
+          ))}
         </ul>
-        <label>
+        <label className="small-text">
           Country
           <input
             type="text"
@@ -197,7 +221,7 @@ const SpotsForm = ({ formType }) => {
           </p>
           {<p className="error-message">{bErrs?.county}</p>}
         </label>
-        <label>
+        <label className="small-text">
           Street
           <input
             type="text"
@@ -210,72 +234,90 @@ const SpotsForm = ({ formType }) => {
           </p>
           {<p className="error-message">{bErrs?.street}</p>}
         </label>
-        <label>
-          City
-          <input
-            type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value?.trim())}
-            placeholder="City"
-          />
-          <p className="error-message">
-            {errors.filter((err) => err.includes("City"))}
+        <div className="city-state">
+          <label className="city-label small-text">
+            City
+            <input
+              type="text"
+              value={city}
+              onChange={(e) => setCity(e.target.value?.trim())}
+              placeholder="City"
+            />
+            <p className="error-message">
+              {errors.filter((err) => err.includes("City"))}
+            </p>
+            {<p className="error-message">{bErrs?.city}</p>}
+          </label>
+          ,
+          <label className="state-label small-text">
+            State
+            <input
+              type="text"
+              value={state}
+              onChange={(e) => setState(e.target.value?.trim())}
+              placeholder="State"
+            />
+            <p className="error-message">
+              {errors.filter((err) => err.includes("State"))}
+            </p>
+            {<p className="error-message">{bErrs?.state}</p>}
+          </label>
+        </div>
+        <div className="Lat-Lng">
+          <label className="lat-label small-text">
+            Latitude
+            <input
+              type="number"
+              value={latitude}
+              onChange={(e) => setLatitude(e.target.value)}
+              placeholder="Latitude"
+            />
+            <p className="error-message">
+              {errors.filter((err) => err.includes("Latitude"))}
+            </p>
+            {<p className="error-message">{bErrs?.lat}</p>}
+          </label>
+          ,
+          <label className="lng-label small-text">
+            Longitude
+            <input
+              type="number"
+              value={longitude}
+              onChange={(e) => setLongitude(e.target.value)}
+              placeholder="Longitude"
+            />
+            <p className="error-message">
+              {errors.filter((err) => err.includes("Longitude"))}
+            </p>
+            {<p className="error-message">{bErrs?.lng}</p>}
+          </label>
+        </div>
+        <div className="where-text">
+          <p className="medium-text diviser">Describe your place to guests</p>
+          <p className="small-text">
+            Mention the best features of your space, any special amentities like
+            fast wifi or parking, and what you love about the neighborhood.
           </p>
-          {<p className="error-message">{bErrs?.city}</p>}
-        </label>
-        <label>
-          State
-          <input
-            type="text"
-            value={state}
-            onChange={(e) => setState(e.target.value?.trim())}
-            placeholder="State"
-          />
-          <p className="error-message">
-            {errors.filter((err) => err.includes("State"))}
-          </p>
-          {<p className="error-message">{bErrs?.state}</p>}
-        </label>
-        <label>
-          Latitude
-          <input
-            type="number"
-            value={latitude}
-            onChange={(e) => setLatitude(e.target.value)}
-            placeholder="Latitude"
-          />
-          <p className="error-message">
-            {errors.filter((err) => err.includes("Latitude"))}
-          </p>
-          {<p className="error-message">{bErrs?.lat}</p>}
-        </label>
-        <label>
-          Longitude
-          <input
-            type="number"
-            value={longitude}
-            onChange={(e) => setLongitude(e.target.value)}
-            placeholder="Longitude"
-          />
-          <p className="error-message">
-            {errors.filter((err) => err.includes("Longitude"))}
-          </p>
-          {<p className="error-message">{bErrs?.lng}</p>}
-        </label>
-        <label>
-          Describe your place to guest
+        </div>
+        <label className="small-text">
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Describe your place to guest"
+            placeholder="Please write at least 30 characters"
           />
           <p className="error-message">
             {errors.filter((err) => err.includes("Description"))}
           </p>
-          {<p className="error-message">{bErrs?.description}</p>}
+          {/* {<p className="error-message">{bErrs?.description}</p>} */}
         </label>
-        <label>
-          Create a title for your spot
+        <label className="small-text">
+          <div className="where-text">
+            <p className="medium-text diviser">Create a title for your spot</p>
+            <p className="small-text">
+              Catch guests' attention with a spot title that highlights what
+              makes your place special.
+            </p>
+          </div>
           <input
             type="text"
             value={name}
@@ -285,29 +327,47 @@ const SpotsForm = ({ formType }) => {
           <p className="error-message">
             {errors.filter((err) => err.includes("Title"))}
           </p>
-          {<p className="error-message">{bErrs?.name}</p>}
+          {/* {<p className="error-message">{bErrs?.name}</p>} */}
         </label>
-        <label>
-          Set a base price for your spot
-          <input
-            type="number"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            placeholder="Price per night (USD)"
-          />
+        <label className="small-text">
+          <div className="where-text">
+            <p className="medium-text diviser">
+              Set a base price for your spot
+            </p>
+            <p className="small-text">
+              Competitive pricing can help your listing stand out and rank
+              higher in search results.
+            </p>
+          </div>
+          <div className="price-money">
+            &#160;$&#160;
+            <input
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="Price per night (USD)"
+            />
+          </div>
           <p className="error-message">
             {errors.filter((err) => err.includes("Price"))}
           </p>
-          {<p className="error-message">{bErrs?.price}</p>}
+          {/* {<p className="error-message">{bErrs?.price}</p>} */}
         </label>
         {formType === "NewSpotsForm" && (
           <>
-            <label>
-              Liven up your spot with photos
+            <div className="where-text">
+              <p className="medium-text diviser">
+                Liven up your spot with photos
+              </p>
+              <p className="small-text">
+                Submit a link to at least one photo to publish your spot.
+              </p>
+            </div>
+            <label className="small-text">
               <input
-                type="text"
+                type="url"
                 value={url}
-                placeholder="url"
+                placeholder="Preview Image URL"
                 onChange={(e) => setUrl(e.target.value)}
                 required
               />
@@ -315,7 +375,7 @@ const SpotsForm = ({ formType }) => {
             <p className="error-message">
               {errors.filter((err) => err.includes("url"))}
             </p>
-            <p className="error-message">{bErrs?.price}</p>
+            {/* <p className="error-message">{bErrs?.url}</p> */}
           </>
         )}
         <button
