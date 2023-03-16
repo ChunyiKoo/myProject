@@ -208,6 +208,13 @@ textarea {
 .button-container {
   width: 100px;
   height: 30px;
+  z-index: 2;
+}
+
+.login-button,
+.signup-button {
+  color: black;
+  font-weight: 500;
 }
 
 .login-form-container,
@@ -615,6 +622,7 @@ input {
 .spot-detail-review-detail-box {
   width: 100%;
   padding: 0 5%;
+  margin-bottom: 25px;
 }
 
 .spot-detail-review-detail {
@@ -661,6 +669,7 @@ input {
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
 
 /*****review star*****/
 

@@ -26,7 +26,7 @@ const StarRating = ({ value, onChange }) => {
             <i className="fa-sharp fa-solid fa-star fa-sm"></i>
           </div>
         ))}
-        <div>stars</div>
+        <div>Stars</div>
       </div>
     </>
   );

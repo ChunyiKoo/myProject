@@ -18,19 +18,30 @@ function SpotsCurrent() {
   }, [dispatch]);
 
   console.log("SpotsCurrent spots: ", spots);
+  if (!spots) {
+    return (
+      <div className="SpotDetail-all-container">
+        <div className="lag-load">
+          <h2>Unable to retrieve spots. Please try again shortly.</h2>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="SpotCurrent-container">
       <div className="SpotCurrent-header-text">
         <div className="SpotCurrent-header-box">
-          <h2>Manage Your Spots</h2>
-          <NavLink
-            exact
-            to="/spots/new"
-            //activeClassName="AppHeader-create-a-spot-link"
-          >
-            <button className="create-a-spot">Create a New Spot</button>
-          </NavLink>
+          <h2>Manage Spots</h2>
+          {spots.length === 0 && (
+            <NavLink
+              exact
+              to="/spots/new"
+              //activeClassName="AppHeader-create-a-spot-link"
+            >
+              <button className="create-a-spot">Create a New Spot</button>
+            </NavLink>
+          )}
         </div>
       </div>
       <div className="Landing-page">

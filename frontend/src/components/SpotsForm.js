@@ -262,8 +262,8 @@ const SpotsForm = ({ formType }) => {
           <input
             type="text"
             value={address}
-            onChange={(e) => setAddress(e.target.value?.trim())}
-            placeholder="Street"
+            onChange={(e) => setAddress(e.target.value)}
+            placeholder="Street Address"
           />
           <p className="error-message">
             {errors.filter((err) => err.includes("Street"))}
@@ -358,7 +358,7 @@ const SpotsForm = ({ formType }) => {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Create a title for your spot"
+            placeholder="Name of your spot"
           />
           <p className="error-message">
             {errors.filter((err) => err.includes("Title"))}
