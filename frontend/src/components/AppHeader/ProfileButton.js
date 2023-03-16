@@ -79,6 +79,19 @@ function ProfileButton({ user }) {
               Manage Reviews{" "}
             </NavLink>
           </div>
+          <div className="dropdown-content manage-spot-link">
+            <NavLink
+              style={{
+                textDecoration: "none",
+                fontSize: "14pt",
+                color: "black",
+              }}
+              exact
+              to="/bookings/current"
+            >
+              My Trips
+            </NavLink>
+          </div>
           <div className="dropdown-content logout-button-container">
             <button className="logout-button" onClick={logout}>
               Log Out

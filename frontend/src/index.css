@@ -744,3 +744,83 @@ input {
   border-top-color: var(--tooltip-color);
   transform-origin: top center;
 }
+
+/*****TripList******/
+
+.triplist-title {
+  width: 100%vw;
+  padding: 60px;
+
+}
+
+.triplist-outer-container {
+  width: 100%vw;
+  padding: 0 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+.triplist-spot-info-photo-container {
+  width: 100%;
+  min-width: 900px;
+  height: 350px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-radius: 9px;
+  box-shadow: 0 2px 5px 0 gray;
+}
+
+.triplist-spot-info-box {
+  width: 100%;
+}
+
+.triplist-name-discpt {
+  height: 90px;
+  padding: 15px;
+  border-bottom: 2px solid rgb(203, 203, 203);
+}
+
+.triplist-mid-info-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* justify-items: center; */
+
+}
+
+
+.triplist-inner-info-box {
+  /* width: 500px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin: 10px 0;
+  /*padding: 15px; */
+
+  justify-self: center;
+  align-self: center;
+}
+
+.triplist-buttons-box {
+  border-top: 2px solid rgb(203, 203, 203);
+}
+
+.triplist-spot-photo-box {
+  /* width: 30%;
+  height: auto; */
+  background-size: cover;
+}
+
+/* 
+.trip-list-spot-photo {
+  width: 600px;
+  height: 100%;
+  object-fit: fill;
+
+} */
+
+.triplist-spot-map-box {
+  width: 30%;
+}

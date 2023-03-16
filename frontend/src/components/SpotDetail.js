@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSingleSpot } from "../store/spots";
 import { fetchAllReviews } from "../store/reviews";
@@ -11,6 +11,7 @@ import DeleteReviewModal from "./DeleteReviewModal";
 import { clearSingleSpot } from "../store/spots";
 
 function SpotDetail() {
+  const history = useHistory();
   const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
   const params = useParams();
@@ -172,7 +173,7 @@ function SpotDetail() {
                     {reviewStr}
                   </div>
                 </div>
-                <button onClick={() => alert("Feature coming soon.")}>
+                <button onClick={() => history.push("/bookings/new")}>
                   Reserve
                 </button>
               </div>
