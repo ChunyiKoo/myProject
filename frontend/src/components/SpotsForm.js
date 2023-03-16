@@ -67,6 +67,19 @@ const SpotsForm = ({ formType }) => {
     setPrice(233);
   };
 
+  const isValidUrl = (urlString) => {
+    var urlPattern = new RegExp(
+      "^(https?:\\/\\/)?" + // validate protocol
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
+        "((\\d{1,3}\\.){3}\\d{1,3}))" + // validate OR ip (v4) address
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // validate port and path
+        "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
+        "(\\#[-a-z\\d_]*)?$",
+      "i"
+    ); // validate fragment locator
+    return !!urlPattern.test(urlString);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
@@ -162,7 +175,20 @@ const SpotsForm = ({ formType }) => {
     if (price < 0) errs.push("Price need to be no less than 0");
 
     if (formType === "NewSpotsForm") {
-      if (url?.trim().length === 0) errs.push("Review Photo url is required");
+      if (url?.trim().length === 0 || !isValidUrl(url))
+        errs.push("A valid review Photo url is required");
+      else {
+        const urlstrArr = url.split(".");
+        console.log("urlstrArr", urlstrArr);
+        if (
+          urlstrArr[urlstrArr.length - 1] !== "jpg" &&
+          urlstrArr[urlstrArr.length - 1] !== "jpeg" &&
+          urlstrArr[urlstrArr.length - 1] !== "bmp" &&
+          urlstrArr[urlstrArr.length - 1] !== "gif" &&
+          urlstrArr[urlstrArr.length - 1] !== "png"
+        )
+          errs.push("A valid review Photo url is required");
+      }
     }
 
     if (showErr) {
@@ -218,7 +244,7 @@ const SpotsForm = ({ formType }) => {
           <input
             type="text"
             value={country}
-            onChange={(e) => setCountry(e.target.value?.trim())}
+            onChange={(e) => setCountry(e.target.value)}
             placeholder="Country"
           />
           {/* <Select
@@ -250,7 +276,7 @@ const SpotsForm = ({ formType }) => {
             <input
               type="text"
               value={city}
-              onChange={(e) => setCity(e.target.value?.trim())}
+              onChange={(e) => setCity(e.target.value)}
               placeholder="City"
             />
             <p className="error-message">
@@ -264,7 +290,7 @@ const SpotsForm = ({ formType }) => {
             <input
               type="text"
               value={state}
-              onChange={(e) => setState(e.target.value?.trim())}
+              onChange={(e) => setState(e.target.value)}
               placeholder="State"
             />
             <p className="error-message">
@@ -331,7 +357,7 @@ const SpotsForm = ({ formType }) => {
           <input
             type="text"
             value={name}
-            onChange={(e) => setName(e.target.value?.trim())}
+            onChange={(e) => setName(e.target.value)}
             placeholder="Create a title for your spot"
           />
           <p className="error-message">
@@ -383,7 +409,7 @@ const SpotsForm = ({ formType }) => {
               />
             </label>
             <p className="error-message">
-              {errors.filter((err) => err.includes("url"))}
+              {errors.filter((err) => err.includes("Photo url"))}
             </p>
             {/* <p className="error-message">{bErrs?.url}</p> */}
           </>
