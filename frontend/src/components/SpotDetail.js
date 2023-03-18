@@ -225,6 +225,7 @@ function SpotDetail() {
                   {sessionUser?.id === el.userId && (
                     <OpenModalButton
                       buttonText="Delete"
+                      someN="spot-buttons"
                       modalComponent={<DeleteReviewModal reviewId={el.id} />}
                     />
                   )}

@@ -54,18 +54,18 @@ const SpotsForm = ({ formType }) => {
       initialData();
   }, [formType, spots]);
 
-  const fillDemo = () => {
-    setCountry("USA");
-    setAddress("123 Happy street");
-    setCity("Cherry");
-    setState("TX");
-    setLatitude(33);
-    setLongitude(-156);
-    setDescription("A very beautiful waterfront house");
-    setName("Cherry house");
-    setUrl("https://live.staticflickr.com/4050/4570420809_4f44ae5dba_n.jpg");
-    setPrice(233);
-  };
+  // const fillDemo = () => {
+  //   setCountry("USA");
+  //   setAddress("123 Happy street");
+  //   setCity("Cherry");
+  //   setState("TX");
+  //   setLatitude(33);
+  //   setLongitude(-156);
+  //   setDescription("A very beautiful waterfront house");
+  //   setName("Cherry house");
+  //   setUrl("https://live.staticflickr.com/4050/4570420809_4f44ae5dba_n.jpg");
+  //   setPrice(233);
+  // };
 
   const isValidUrl = (urlString) => {
     var urlPattern = new RegExp(
@@ -425,11 +425,11 @@ const SpotsForm = ({ formType }) => {
         >
           {formType === "NewSpotsForm" ? "Create Spot" : "Update your Spot"}
         </button>
-        {formType === "NewSpotsForm" && (
+        {/* {formType === "NewSpotsForm" && (
           <div className="login-demo-user" onClick={() => fillDemo()}>
             Demo Input
           </div>
-        )}
+        )} */}
       </form>
     </div>
   );

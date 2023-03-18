@@ -448,14 +448,12 @@ input {
 }
 
 .SpotDetail-all-outer-container {
-
   width: 100%vw;
   /* min-width: 1000px; */
   padding: 60px;
 }
 
 .SpotDetail-all-container {
-
   width: 100%;
   height: auto;
   display: flex;
