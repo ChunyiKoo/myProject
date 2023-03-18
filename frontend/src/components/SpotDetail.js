@@ -61,6 +61,7 @@ function SpotDetail() {
   ) {
     postReviewButton = (
       <OpenModelButton
+        someN="post-your-review-button"
         buttonText="Post Your Review"
         modalComponent={
           <ReviewFormModal spotId={spotId} spotName={spots.singleSpot.name} />
@@ -137,8 +138,8 @@ function SpotDetail() {
               <h2>{`${spots.singleSpot?.city}, ${spots.singleSpot?.state}, ${spots.singleSpot?.country}`}</h2>
             </div>
             <div className="SpotDetail-all-photo-container">
-              <div className="SpotDetail-all-photo-box">
-                {spots.singleSpot.SpotImages?.map((image, idx) => (
+              {/* <div className="SpotDetail-all-photo-box">
+                {spots.singleSpot.SpotImages?.slice(0, 5).map((image, idx) => (
                   <div
                     key={idx}
                     className={
@@ -153,6 +154,30 @@ function SpotDetail() {
                         idx === 0 ? `Spots-photo-big` : `Spots-photo-small`
                       }
                       src={`${image.url}`}
+                    />
+                  </div>
+                ))}
+              </div> */}
+              <div className="SpotDetail-all-photo-box">
+                {[0, 1, 2, 3, 4].map((idx) => (
+                  <div
+                    key={idx}
+                    className={
+                      idx === 0
+                        ? `SpotDetail-photo-big-box`
+                        : `SpotDetail-photo-small-box-${idx}`
+                    }
+                  >
+                    <img
+                      key={idx}
+                      className={
+                        idx === 0 ? `Spots-photo-big` : `Spots-photo-small`
+                      }
+                      src={
+                        spots.singleSpot.SpotImages[idx]
+                          ? `${spots.singleSpot.SpotImages[idx].url}`
+                          : "/img/no-image-template.png"
+                      }
                     />
                   </div>
                 ))}
@@ -172,7 +197,10 @@ function SpotDetail() {
                     {reviewStr}
                   </div>
                 </div>
-                <button onClick={() => alert("Feature coming soon.")}>
+                <button
+                  className="spotdetail-reserve-button"
+                  onClick={() => alert("Feature coming soon.")}
+                >
                   Reserve
                 </button>
               </div>
@@ -186,7 +214,7 @@ function SpotDetail() {
                   {reviewStr2}
                 </div>
               </div>
-              <div className="post-your-review-button">{postReviewButton}</div>
+              <div>{postReviewButton}</div>
             </div>
             <div className="spot-detail-review-container">
               {spotReviews.reverse().map((el, idx) => (

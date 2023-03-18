@@ -42,19 +42,38 @@ function LoginFormModal() {
   };
 
   const fillDemo1 = () => {
-    setCredential("demo@user.io");
-    setPassword("password");
+    // setCredential("demo@user.io");
+    // setPassword("password");
+
+    return dispatch(
+      sessionActions.login({
+        credential: "demo@user.io",
+        password: "password",
+      })
+    )
+      .then(() => {
+        setOnModalClose(() => {
+          setCredential("");
+          setPassword("");
+          setErrors([]);
+        });
+        closeModal();
+      })
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) setErrors(data.errors);
+      });
   };
 
-  const fillDemo2 = () => {
-    setCredential("user1@user.io");
-    setPassword("password1");
-  };
+  // const fillDemo2 = () => {
+  //   setCredential("user1@user.io");
+  //   setPassword("password1");
+  // };
 
-  const fillDemo3 = () => {
-    setCredential("user2@user.io");
-    setPassword("password2");
-  };
+  // const fillDemo3 = () => {
+  //   setCredential("user2@user.io");
+  //   setPassword("password2");
+  // };
 
   useEffect(() => {
     let errs = [];
@@ -130,12 +149,12 @@ function LoginFormModal() {
       <div className="login-demo-user" onClick={() => fillDemo1()}>
         Log in as Demo User1
       </div>
-      <div className="login-demo-user" onClick={() => fillDemo2()}>
+      {/* <div className="login-demo-user" onClick={() => fillDemo2()}>
         Log in as Demo User2
       </div>
       <div className="login-demo-user" onClick={() => fillDemo3()}>
         Log in as Demo User3
-      </div>
+      </div> */}
     </div>
   );
 }

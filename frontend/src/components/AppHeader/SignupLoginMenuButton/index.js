@@ -44,14 +44,14 @@ function SignupLoginMenuButton() {
         <div className={ulClassName} ref={ulRef}>
           <div className="button-container">
             <OpenModalButton
-              className="login-button"
+              someN="login-button"
               buttonText="Log In"
               modalComponent={<LoginFormModal />}
             />
           </div>
           <div className="button-container">
             <OpenModalButton
-              className="signup-button"
+              someN="signup-button"
               buttonText="Sign Up"
               modalComponent={<SignupFormModal />}
             />

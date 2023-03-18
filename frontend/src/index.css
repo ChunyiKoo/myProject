@@ -39,13 +39,6 @@ button {
 
 }
 
-.login-button,
-.signup-button {
-  background-color: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
-}
 
 textarea {
   width: 100%;
@@ -147,7 +140,7 @@ textarea {
 
   position: absolute;
   right: -20px;
-  top: calc(100% + .55rem);
+  top: calc(100% + .75rem);
   /* gap: 10px; */
   background-color: white;
   padding-bottom: .15rem;
@@ -164,7 +157,7 @@ textarea {
 
   position: absolute;
   right: -20px;
-  top: calc(100% + .55rem);
+  top: calc(100% + .75rem);
   /* gap: 10px; */
   background-color: white;
   padding-bottom: .15rem;
@@ -201,7 +194,8 @@ textarea {
   cursor: pointer;
   background-color: #999999;
   color: white;
-  border-color: #999999;
+  outline: none;
+  border: none;
 }
 
 /* login form */
@@ -211,10 +205,15 @@ textarea {
   z-index: 2;
 }
 
+
 .login-button,
 .signup-button {
   color: black;
   font-weight: 500;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
 }
 
 .login-form-container,
@@ -361,6 +360,7 @@ input {
 }
 
 .spot-buttons-box {
+  width: 100%;
   display: flex;
   gap: 15px;
 }
@@ -493,6 +493,9 @@ input {
   height: 420px;
   row-gap: 0.5rem;
   column-gap: 0.5rem;
+  border-radius: 9px;
+  box-shadow: 0 2px 5px 0 #ccc;
+
 }
 
 .SpotDetail-photo-big-box {
@@ -550,6 +553,7 @@ input {
   justify-content: space-between;
   border-bottom: #999999;
   margin: 15px 60px;
+  gap: 5px;
 }
 
 .spot-detail-price-star-reserve-box {
@@ -564,6 +568,17 @@ input {
   padding: .75rem .75rem;
   border-radius: 9px;
 }
+
+.spotdetail-reserve-button,
+.post-your-review-button {
+  background-color: #FF5A5F;
+  padding: 5px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+}
+
 
 .spot-detail-price-star-box {
   display: flex;
@@ -599,8 +614,7 @@ input {
 }
 
 .post-your-review-button {
-  padding: 15px;
-  margin-left: 50px;
+  margin-left: 70px;
 }
 
 .spot-detail-star-review-box {

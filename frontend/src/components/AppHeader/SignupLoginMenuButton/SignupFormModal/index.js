@@ -82,21 +82,14 @@ function SignupFormModal() {
     // ]);
   };
 
-  const fillDemo = () => {
-    setEmail("demo10@user.io");
-    setUsername("marysmith");
-    setFirstName("Mary");
-    setLastName("Smith");
-    setPassword("mypassword");
-    setConfirmPassword("mypassword");
-  };
-
-  // useEffect(() => {
-  //   let errs = [];
-  //   if (credential.length < 4) errs.push("Name must be 3 or more characters");
-  //   if (password.length < 6) errs.push("Password must be 6 or more characters");
-  //   setErrors(errs);
-  // }, [credential, password]);
+  // const fillDemo = () => {
+  //   setEmail("demo10@user.io");
+  //   setUsername("marysmith");
+  //   setFirstName("Mary");
+  //   setLastName("Smith");
+  //   setPassword("mypassword");
+  //   setConfirmPassword("mypassword");
+  // };
 
   return (
     <div className="signup-form-container">
@@ -192,9 +185,9 @@ function SignupFormModal() {
           Sign Up
         </button>
       </form>
-      <div className="signup-demo-user" onClick={() => fillDemo()}>
+      {/* <div className="signup-demo-user" onClick={() => fillDemo()}>
         Demo User
-      </div>
+      </div> */}
     </div>
   );
 }
