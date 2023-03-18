@@ -66,6 +66,7 @@ function ReviewCurrent() {
                   <div className="spot-detail-review-detail">{el.review}</div>
 
                   <OpenModalButton
+                    someN="review-delete-button"
                     buttonText="Delete"
                     modalComponent={<DeleteReviewModal reviewId={el.id} />}
                   />

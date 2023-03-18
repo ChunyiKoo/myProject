@@ -58,7 +58,7 @@ function SpotsCurrent() {
               </div>
               <div>
                 <OpenModalButton
-                  className="spot-button-right spot-buttons"
+                  someN="spot-button-right spot-buttons"
                   buttonText="Delete"
                   modalComponent={<DeleteSpotModal spotId={spot.id} />}
                 />
