@@ -9,6 +9,8 @@ import SpotDetail from "./components/SpotDetail";
 import SpotsCurrent from "./components/SpotsCurrent";
 import UpdateSpotForm from "./components/UpdateSpotForm";
 import ReviewCurrent from "./components/ReviewCurrent";
+import TripList from "./components/TripList";
+import NewBookingForm from "./components/NewBookingForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -44,9 +46,19 @@ function App() {
             <ReviewCurrent />
           </Route>
         )}
+        {isLoaded && (
+          <Route path="/bookings/current">
+            <TripList />
+          </Route>
+        )}
         <Route path="/spots/:spotId">
           <SpotDetail />
         </Route>
+        {isLoaded && (
+          <Route path="/bookings/new">
+            <NewBookingForm />
+          </Route>
+        )}
       </Switch>
     </>
   );

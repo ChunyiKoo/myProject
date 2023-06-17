@@ -9,7 +9,6 @@ import ReviewFormModal from "./ReviewFormModal";
 import OpenModalButton from "../components/AppHeader/SignupLoginMenuButton/OpenModalButton";
 import DeleteReviewModal from "./DeleteReviewModal";
 import { clearSingleSpot } from "../store/spots";
-import BookingForm from "./BookingForm";
 
 function SpotDetail() {
  const history = useHistory();
@@ -140,7 +139,7 @@ function SpotDetail() {
       </div>
       <div className="SpotDetail-all-photo-container">
        <div className="SpotDetail-all-photo-box">
-        {[0, 1, 2, 3, 4].map((idx) => (
+        {spots.singleSpot.SpotImages?.map((image, idx) => (
          <div
           key={idx}
           className={
@@ -152,29 +151,28 @@ function SpotDetail() {
           <img
            key={idx}
            className={idx === 0 ? `Spots-photo-big` : `Spots-photo-small`}
-           src={
-            spots.singleSpot.SpotImages[idx]
-             ? `${spots.singleSpot.SpotImages[idx].url}`
-             : "/img/no-image-template.png"
-           }
+           src={`${image.url}`}
           />
          </div>
         ))}
        </div>
       </div>
       <div className="spot-detail-price-star-container">
-       <div style={{ width: "60%" }}>
+       <div>
         <h2>{`Hosted by ${spots.singleSpot?.Owner.firstName} ${spots.singleSpot?.Owner.lastName}`}</h2>
         <p>{` ${spots.singleSpot?.description}`}</p>
        </div>
-       {sessionUser.id !== spots.singleSpot.ownerId ? (
-        <BookingForm
-         formType="Add"
-         price={`${spots.singleSpot?.price}`}
-         spotId={`${spots.singleSpot?.id}`}
-         serviceFee={`${spots.singleSpot?.serviceFee}`}
-        />
-       ) : null}
+       <div className="spot-detail-price-star-reserve-box">
+        <div className="spot-detail-price-star-box">
+         <div>{`$${spots.singleSpot?.price} / night`}</div>
+         <div>
+          <i className="fa-sharp fa-solid fa-star fa-sm"></i>
+          {`${spots.singleSpot?.avgStarRating}`}
+          {reviewStr}
+         </div>
+        </div>
+        <button onClick={() => history.push("/bookings/new")}>Reserve</button>
+       </div>
       </div>
       <div className="spot-detail-star-review-button-box">
        <div className="spot-detail-star-review-box">

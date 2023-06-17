@@ -119,7 +119,7 @@ export const createASpot =
       });
 
       if (response2.ok) {
-        spot = { ...spot, previewImage: url };
+        spot = { ...spot, previewImage: url, avgRating: "New" };
         dispatch(addASpot(spot));
         //return spot;
       } else {
