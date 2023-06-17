@@ -21,11 +21,15 @@ h2 {
 }
 
 .medium-text {
-  font-size: 20px;
+  font-size: 20pt;
 }
 
 .small-text {
-  font-size: 16px;
+  font-size: 16pt;
+}
+
+.bold {
+  font-weight: 600;
 }
 
 button {
@@ -252,6 +256,10 @@ input {
   border-radius: 15px;
 }
 
+.booking-review-button,
+.booking-delete-button,
+.booking-update-button,
+.booking-form-submit-button,
 .delete-spot-button,
 .delete-review-button,
 .login-form-submit-button,
@@ -265,12 +273,20 @@ input {
   height: 45px;
   background-color: #FF5A5F;
   color: white;
+  border: 0;
+  border-radius: 9px;
 }
+
 
 .disabled-button,
 .cancel-delete-spot-button,
 .cancel-delete-review-button {
   background-color: rgb(109, 109, 109);
+}
+
+.booking-delete-button {
+  color: rgb(109, 109, 109);
+  font-weight: 700;
 }
 
 .login-demo-user {
@@ -438,10 +454,12 @@ input {
   width: 47.5%;
 }
 
+.servce-fee-money,
 .price-money {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
+
 
 .SpotDetail-all-outer-container {
 
@@ -464,7 +482,7 @@ input {
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 .SpotDetail-all-photo-container {
@@ -546,42 +564,33 @@ input {
 
 .spot-detail-price-star-container {
   width: 90%;
-  display: flex;
-  justify-content: space-between;
   border-bottom: #999999;
   margin: 15px 60px;
 }
 
-.spot-detail-price-star-reserve-box {
+.spot-detail-booking-form {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 18%;
-  min-width: 350px;
-  height: 70px;
   box-shadow: 0 2px 5px 0 black;
 
   padding: .75rem .75rem;
   border-radius: 9px;
 }
 
-.spot-detail-price-star-box {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
 
-}
 
 .spot-detail-star-review-container {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 .spot-detail-star-review-button-box {
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   padding: 15px;
   margin-top: 5px;
   margin-bottom: 5px;
@@ -606,7 +615,7 @@ input {
 .spot-detail-star-review-box {
   width: 45%;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   gap: 25px;
   margin-left: 60px;
 
@@ -620,7 +629,7 @@ input {
 }
 
 .spot-detail-review-detail-box {
-  width: 100%;
+  width: 60%;
   padding: 0 5%;
   margin-bottom: 25px;
 }
@@ -748,13 +757,13 @@ input {
 /*****TripList******/
 
 .triplist-title {
-  width: 100%vw;
+  width: 100vw;
   padding: 60px;
 
 }
 
 .triplist-outer-container {
-  width: 100%vw;
+  width: 100vw;
   padding: 0 60px;
   display: flex;
   flex-direction: column;
@@ -764,13 +773,14 @@ input {
 }
 
 .triplist-spot-info-photo-container {
-  width: 100%;
-  min-width: 900px;
-  height: 350px;
+  width: 80%;
+  min-width: 800px;
+  height: 600px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   border-radius: 9px;
   box-shadow: 0 2px 5px 0 gray;
+  overflow: hidden;
 }
 
 .triplist-spot-info-box {
@@ -778,10 +788,20 @@ input {
 }
 
 .triplist-name-discpt {
-  height: 90px;
-  padding: 15px;
+  min-height: 120px;
+  padding: 1rem 2rem;
   border-bottom: 2px solid rgb(203, 203, 203);
 }
+
+.triplist-name {
+  font-size: 22pt;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+/* .triplist-name-discpt>p {
+  font-size: 18pt;
+} */
 
 .triplist-mid-info-box {
   display: grid;
@@ -796,15 +816,30 @@ input {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  margin: 10px 0;
+  margin: 1rem 2rem;
   /*padding: 15px; */
 
-  justify-self: center;
-  align-self: center;
+  /* justify-self: center; */
+  /* align-self: center; */
 }
 
 .triplist-buttons-box {
+  width: 100%;
   border-top: 2px solid rgb(203, 203, 203);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+}
+
+.triplist-button-container {
+  width: 80%;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .triplist-spot-photo-box {
@@ -823,4 +858,47 @@ input {
 
 .triplist-spot-map-box {
   width: 30%;
+}
+
+/*****BookingForm******/
+.booking-price-total {
+  display: flex;
+  justify-content: space-between;
+}
+
+.spot-detail-booking-input-box {
+  border: 3px solid rgb(203, 203, 203);
+  border-radius: 9px;
+  padding: 10px;
+}
+
+.booking-guests {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  ;
+
+}
+
+.spot-detail-booking-checkin-checkout {
+  display: flex;
+}
+
+.checkin-checkout {
+  width: 50%;
+  padding: 5px 15px;
+  border-bottom: 2px solid rgb(203, 203, 203);
+
+}
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  position: fixed;
+  width: 500px;
+  right: 50px;
+  bottom: 30px;
+  padding: 25px;
+  gap: 7px;
 }
