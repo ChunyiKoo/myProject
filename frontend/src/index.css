@@ -342,7 +342,7 @@ input {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 270px;
+  width: 400px;
   gap: 10px;
   font-size: 12pt;
 }
@@ -355,12 +355,12 @@ input {
 }
 
 .Landing-page {
-  max-width: 1000px;
-  width: 80%;
+  max-width: 1300px;
+  width: 100%;
   margin: 60px;
   display: grid;
-  column-gap: 20px;
-  row-gap: 30px;
+  column-gap: 40px;
+  row-gap: 60px;
   align-items: center;
   justify-content: center;
   grid-template-columns: repeat(4, 1fr);
@@ -387,28 +387,28 @@ input {
 
 .Spots-photo-container {
   border-radius: 9px;
-  width: 270px;
-  height: 250px;
+  width: 400px;
+  height: 360px;
   overflow: hidden;
 }
 
 .Spots-photo {
   object-fit: cover;
-  width: 270px;
-  height: 250px;
+  width: 400px;
+  height: 360px;
 }
 
 .Spots-info-text-container {
   display: flex;
   justify-content: space-between;
-  width: 270px;
+  width: 400px;
 }
 
 
 .Spots-price {
   display: flex;
   justify-content: flex-start;
-  width: 270px;
+  width: 400px;
 }
 
 /***** new-spot-form *****/
@@ -654,7 +654,7 @@ input {
 .Spots-current-price {
   display: flex;
   justify-content: space-between;
-  width: 270px;
+  width: 400px;
 }
 
 /******SpotCurrent*******/

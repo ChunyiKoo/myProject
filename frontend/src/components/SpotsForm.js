@@ -16,7 +16,7 @@ const SpotsForm = ({ formType }) => {
  const [longitude, setLongitude] = useState();
  const [description, setDescription] = useState("");
  const [name, setName] = useState("");
- const [url, setUrl] = useState("");
+ const [image, setImage] = useState(null);
  const [price, setPrice] = useState();
  const [serviceFee, setServiceFee] = useState();
  const [errors, setErrors] = useState([]);
@@ -30,6 +30,12 @@ const SpotsForm = ({ formType }) => {
  console.log("errors array: ", errors);
  // setOnModalClose(history.push("/spots/"));
  console.log("SpotsForm spotId: ", spotId);
+
+ const updateFile = (e) => {
+  const file = e.target.files[0];
+  if (file) setImage(file);
+ };
+
  let spots = useSelector((state) => state.spots);
 
  useEffect(() => {
@@ -53,33 +59,33 @@ const SpotsForm = ({ formType }) => {
 
  useEffect(() => {
   if (spots && spots.singleSpot && formType === "UpdateSpotForm") initialData();
- }, [formType, spots]);
+ }, [formType, spots, initialData]);
 
- const fillDemo = () => {
-  setCountry("USA");
-  setAddress("123 Happy street");
-  setCity("Cherry");
-  setState("TX");
-  setLatitude(33);
-  setLongitude(-156);
-  setDescription("A very beautiful waterfront house");
-  setName("Cherry house");
-  setUrl("https://live.staticflickr.com/4050/4570420809_4f44ae5dba_n.jpg");
-  setPrice(233);
- };
+ //  const fillDemo = () => {
+ //   setCountry("USA");
+ //   setAddress("123 Happy street");
+ //   setCity("Cherry");
+ //   setState("TX");
+ //   setLatitude(33);
+ //   setLongitude(-156);
+ //   setDescription("A very beautiful waterfront house");
+ //   setName("Cherry house");
+ //   setUrl("https://live.staticflickr.com/4050/4570420809_4f44ae5dba_n.jpg");
+ //   setPrice(233);
+ //  };
 
- const isValidUrl = (urlString) => {
-  var urlPattern = new RegExp(
-   "^(https?:\\/\\/)?" + // validate protocol
-    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
-    "((\\d{1,3}\\.){3}\\d{1,3}))" + // validate OR ip (v4) address
-    "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // validate port and path
-    "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
-    "(\\#[-a-z\\d_]*)?$",
-   "i"
-  ); // validate fragment locator
-  return !!urlPattern.test(urlString);
- };
+ //  const isValidUrl = (urlString) => {
+ //   var urlPattern = new RegExp(
+ //    "^(https?:\\/\\/)?" + // validate protocol
+ //     "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
+ //     "((\\d{1,3}\\.){3}\\d{1,3}))" + // validate OR ip (v4) address
+ //     "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // validate port and path
+ //     "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
+ //     "(\\#[-a-z\\d_]*)?$",
+ //    "i"
+ //   ); // validate fragment locator
+ //   return !!urlPattern.test(urlString);
+ //  };
 
  const handleSubmit = (e) => {
   e.preventDefault();
@@ -103,7 +109,7 @@ const SpotsForm = ({ formType }) => {
   const thunkActionProducer = (formType) => {
    if (formType === "NewSpotsForm") {
     console.log("NewSpotsForm");
-    return dispatch(createASpot(newSpot, { url }))
+    return dispatch(createASpot(newSpot, { image }))
      .then((spot) => {
       history.push(`/spots/${spot.id}`);
       closeModal();
@@ -178,22 +184,22 @@ const SpotsForm = ({ formType }) => {
   if (price < 0) errs.push("Price need to be no less than 0");
   if (serviceFee < 0) errs.push("Service fee need to be no less than 0");
 
-  if (formType === "NewSpotsForm") {
-   if (url?.trim().length === 0 || !isValidUrl(url))
-    errs.push("A valid review Photo url is required");
-   else {
-    const urlstrArr = url.split(".");
-    console.log("urlstrArr", urlstrArr);
-    if (
-     urlstrArr[urlstrArr.length - 1] !== "jpg" &&
-     urlstrArr[urlstrArr.length - 1] !== "jpeg" &&
-     urlstrArr[urlstrArr.length - 1] !== "bmp" &&
-     urlstrArr[urlstrArr.length - 1] !== "gif" &&
-     urlstrArr[urlstrArr.length - 1] !== "png"
-    )
-     errs.push("A valid review Photo url is required");
-   }
-  }
+  // if (formType === "NewSpotsForm") {
+  //  if (url?.trim().length === 0 || !isValidUrl(url))
+  //   errs.push("A valid review Photo url is required");
+  //  else {
+  //   const urlstrArr = url.split(".");
+  //   console.log("urlstrArr", urlstrArr);
+  //   if (
+  //    urlstrArr[urlstrArr.length - 1] !== "jpg" &&
+  //    urlstrArr[urlstrArr.length - 1] !== "jpeg" &&
+  //    urlstrArr[urlstrArr.length - 1] !== "bmp" &&
+  //    urlstrArr[urlstrArr.length - 1] !== "gif" &&
+  //    urlstrArr[urlstrArr.length - 1] !== "png"
+  //   )
+  //    errs.push("A valid review Photo url is required");
+  //  }
+  // }
 
   if (showErr) {
    if (errs.length === 0) setDisabled(false);
@@ -214,7 +220,7 @@ const SpotsForm = ({ formType }) => {
   price,
   serviceFee,
   description,
-  url,
+  image,
   formType,
   showErr,
  ]);
@@ -389,6 +395,18 @@ const SpotsForm = ({ formType }) => {
      </p>
      {/* {<p className="error-message">{bErrs?.price}</p>} */}
     </label>
+    <label>
+     Service fee &#160;$&#160;
+     <input
+      type="number"
+      value={serviceFee}
+      onChange={(e) => setServiceFee(e.target.value)}
+      placeholder="Service fee per stay (USD)"
+     />
+     <p className="error-message">
+      {errors.filter((err) => err.includes("Sevice fee"))}
+     </p>
+    </label>
     {formType === "NewSpotsForm" && (
      <>
       <div className="where-text">
@@ -397,7 +415,7 @@ const SpotsForm = ({ formType }) => {
         Submit a link to at least one photo to publish your spot.
        </p>
       </div>
-      <label className="small-text">
+      {/* <label className="small-text">
        <input
         type="url"
         value={url}
@@ -405,10 +423,17 @@ const SpotsForm = ({ formType }) => {
         onChange={(e) => setUrl(e.target.value)}
         required
        />
+      </label> */}
+      <label>
+       <input
+        type="file"
+        accept=".png,.jpg,.jpeg"
+        onChange={updateFile}
+       ></input>
       </label>
-      <p className="error-message">
+      {/* <p className="error-message">
        {errors.filter((err) => err.includes("Photo url"))}
-      </p>
+      </p> */}
       {/* <p className="error-message">{bErrs?.url}</p> */}
      </>
     )}
@@ -423,11 +448,11 @@ const SpotsForm = ({ formType }) => {
     >
      {formType === "NewSpotsForm" ? "Create Spot" : "Update your Spot"}
     </button>
-    {formType === "NewSpotsForm" && (
+    {/* {formType === "NewSpotsForm" && (
      <div className="login-demo-user" onClick={() => fillDemo()}>
       Demo Input
      </div>
-    )}
+    )} */}
    </form>
   </div>
  );

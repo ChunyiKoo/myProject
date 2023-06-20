@@ -153,8 +153,8 @@ function SpotDetail() {
            key={idx}
            className={idx === 0 ? `Spots-photo-big` : `Spots-photo-small`}
            src={
-            spots.singleSpot.SpotImages[idx]
-             ? `${spots.singleSpot.SpotImages[idx].url}`
+            spots.singleSpot?.SpotImages[idx]
+             ? `${spots.singleSpot?.SpotImages[idx]?.imageUrl}`
              : "/img/no-image-template.png"
            }
           />
@@ -167,7 +167,7 @@ function SpotDetail() {
         <h2>{`Hosted by ${spots.singleSpot?.Owner.firstName} ${spots.singleSpot?.Owner.lastName}`}</h2>
         <p>{` ${spots.singleSpot?.description}`}</p>
        </div>
-       {sessionUser.id !== spots.singleSpot.ownerId ? (
+       {sessionUser && sessionUser?.id !== spots.singleSpot?.ownerId ? (
         <BookingForm
          formType="Add"
          price={`${spots.singleSpot?.price}`}

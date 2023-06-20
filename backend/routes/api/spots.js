@@ -1,3 +1,14 @@
+// ...
+
+const {
+ singleFileDelete,
+ singleFileUpload,
+ multipleFilesUpload,
+ retrievePrivateFile,
+ singleMulterUpload,
+ multipleMulterUpload,
+} = require("../../awsS3");
+
 const express = require("express");
 const { Op } = require("sequelize");
 const {
@@ -190,7 +201,7 @@ router.get("/", validateGetSpot, async (req, res, next) => {
 
  let Spots = [];
  allSpots.forEach((spot) => {
-  Spots.push(spot.toJSON());
+  Spots.push({ ...spot.toJSON() });
  });
 
  Spots.forEach((spot) => {
@@ -209,13 +220,14 @@ router.get("/", validateGetSpot, async (req, res, next) => {
 
  Spots.forEach((spot) => {
   spot.SpotImages.forEach((SpotImage) => {
-   if (SpotImage.preview == true) {
+   if (SpotImage.preview === true) {
     //only show preview image
-    spot.previewImage = SpotImage.url;
+    let imageUrl = retrievePrivateFile(SpotImage.key);
+    spot.previewImage = imageUrl;
    }
   });
   if (!spot.previewImage) {
-   spot.previewImage = " image coming soon";
+   spot.previewImage = null;
   }
   delete spot.SpotImages;
  });
@@ -236,7 +248,7 @@ router.get("/current", requireAuth, async (req, res, next) => {
  });
  let Spots = [];
  allSpots.forEach((spot) => {
-  Spots.push(spot.toJSON());
+  Spots.push({ ...spot.toJSON() });
  });
 
  Spots.forEach((spot) => {
@@ -257,11 +269,12 @@ router.get("/current", requireAuth, async (req, res, next) => {
   spot.SpotImages.forEach((SpotImage) => {
    if (SpotImage.preview == true) {
     //only show preview image
-    spot.previewImage = SpotImage.url;
+    let imageUrl = retrievePrivateFile(SpotImage.key);
+    spot.previewImage = imageUrl;
    }
   });
   if (!spot.previewImage) {
-   spot.previewImage = " image coming soon";
+   spot.previewImage = null;
   }
   delete spot.SpotImages;
  });
@@ -404,6 +417,11 @@ router.get("/:spotId", async (req, res, next) => {
   theSpot.numReviews = count;
   delete theSpot.Reviews;
 
+  theSpot.SpotImages.forEach((spotImage) => {
+   let imageUrl = retrievePrivateFile(spotImage.key);
+   spotImage.imageUrl = imageUrl;
+  });
+
   res.status(200);
   return res.json(theSpot);
  }
@@ -491,38 +509,47 @@ router.post("/", validateCreateSpot, async (req, res, next) => {
 });
 
 //*Add an Image to a Spot based on the Spot's id
-router.post("/:spotId/images", requireAuth, async (req, res, next) => {
- let { id } = req.user;
- const { spotId } = req.params;
- const { url, preview } = req.body;
- const theSpot = await Spot.findByPk(parseInt(spotId));
+router.post(
+ "/:spotId/images",
+ singleMulterUpload("image"),
+ requireAuth,
+ async (req, res, next) => {
+  let { id } = req.user;
+  const { spotId } = req.params;
+  const { preview } = req.body;
+  let key = await singleFileUpload({ file: req.file });
 
- if (!theSpot) {
-  res.status(404);
-  return res.json({
-   message: "Spot couldn't be found",
-   statusCode: 404,
+  const theSpot = await Spot.findByPk(parseInt(spotId));
+
+  if (!theSpot) {
+   res.status(404);
+   return res.json({
+    message: "Spot couldn't be found",
+    statusCode: 404,
+   });
+  }
+
+  const ownerId = parseInt(theSpot.ownerId);
+  if (ownerId !== id) {
+   res.status(403);
+   return res.json({
+    message: "Only owner can add an image.",
+    statusCode: 403,
+   });
+  }
+  const newSpotImage = await SpotImage.create({
+   key,
+   preview,
+   spotId,
   });
- }
 
- const ownerId = parseInt(theSpot.ownerId);
- if (ownerId !== id) {
-  res.status(403);
-  return res.json({
-   message: "Only owner can add an image.",
-   statusCode: 403,
-  });
- }
- const newSpotImage = await SpotImage.create({
-  url,
-  preview,
-  spotId,
- });
+  const imageUrl = retrievePrivateFile(newSpotImage.key);
 
- id = newSpotImage.id;
- res.status(200);
- return res.json({ id, url, preview });
-});
+  id = newSpotImage.id;
+  res.status(200);
+  return res.json({ ...newSpotImage.toJSON(), imageUrl });
+ }
+);
 
 //Edit a Spot
 router.put(
@@ -586,11 +613,13 @@ router.put(
 //Delete a Spot
 router.delete("/:spotId", async (req, res, next) => {
  const { spotId } = req.params;
-
  const { id } = req.user;
  const currentUser = parseInt(id);
 
- const theSpot = await Spot.findByPk(parseInt(spotId));
+ const theSpot = await Spot.findByPk(parseInt(spotId), {
+  include: [{ model: SpotImage }],
+ });
+
  if (!theSpot) {
   res.status(404);
   return res.json({
@@ -606,6 +635,15 @@ router.delete("/:spotId", async (req, res, next) => {
    statusCode: 403,
   });
  }
+
+ theSpot.SpotImages.forEach(async (SpotImage) => {
+  const err = await singleFileDelete(SpotImage.key);
+  if (err) {
+   res.status(400);
+   return res.json(err);
+  }
+ });
+
  theSpot.destroy();
  res.status(200);
  return res.json({
